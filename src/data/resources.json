@@ -1,42 +1,6 @@
 {
   "resources": [
     {
-      "id": "2",
-      "title": "Pride Center - Youth Programs",
-      "url": "#",
-      "provider": "Local Pride Center",
-      "type": "Youth Services",
-      "icon": "Heart",
-      "color": "pink"
-    },
-    {
-      "id": "3",
-      "title": "Pride Center - Social Events",
-      "url": "#",
-      "provider": "Local Pride Center",
-      "type": "Community",
-      "icon": "Users",
-      "color": "purple"
-    },
-    {
-      "id": "4",
-      "title": "Rainbow Health - Primary Care",
-      "url": "#",
-      "provider": "Rainbow Health Clinic",
-      "type": "Healthcare",
-      "icon": "Activity",
-      "color": "cyan"
-    },
-    {
-      "id": "5",
-      "title": "Rainbow Health - Hormone Therapy",
-      "url": "#",
-      "provider": "Rainbow Health Clinic",
-      "type": "Healthcare",
-      "icon": "Activity",
-      "color": "pink"
-    },
-    {
       "id": "6",
       "title": "Trans Lifeline - 24/7 Hotline",
       "url": "#",
@@ -71,31 +35,13 @@
       "type": "Housing",
       "icon": "Home",
       "color": "green"
-    },
-    {
-      "id": "10",
-      "title": "Scholarship Resources",
-      "url": "#",
-      "provider": "LGBTQ Education Fund",
-      "type": "Education",
-      "icon": "GraduationCap",
-      "color": "cyan"
-    },
-    {
-      "id": "11",
-      "title": "Job Training & Placement",
-      "url": "#",
-      "provider": "Pride Works",
-      "type": "Employment",
-      "icon": "Briefcase",
-      "color": "magenta"
     }
   ],
   "siteSettings": {
-    "pageTitle": "EBRTQ - East Baton Rouge Trans & Queer Resources",
-    "h1": "EBRTQ lol",
-    "tagline": "→ Connecting Our Community to Resources ←",
-    "metaDescription": "Find LGBTQ+ resources, support groups, healthcare, crisis support, and community services in East Baton Rouge. Connecting our trans and queer community to vital resources."
+    "pageTitle": "help",
+    "h1": "HELP",
+    "tagline": "help",
+    "metaDescription": "help"
   },
   "customTypes": []
 }
