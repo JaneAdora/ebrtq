@@ -1,10 +1,19 @@
 
-  import { defineConfig } from 'vite';
-  import react from '@vitejs/plugin-react-swc';
-  import path from 'path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import path from 'path';
+import { copyFileSync } from 'fs';
 
-  export default defineConfig({
-    plugins: [react()],
+export default defineConfig({
+  plugins: [
+    react(),
+    {
+      name: 'copy-admin',
+      writeBundle() {
+        copyFileSync('admin.html', 'build/admin.html');
+      }
+    }
+  ],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
