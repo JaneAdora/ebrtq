@@ -1,0 +1,112 @@
+{
+  "resources": [
+    {
+      "id": "1",
+      "title": "Pride Center - Support Groups",
+      "url": "#",
+      "provider": "Local Pride Center",
+      "type": "Mental Health",
+      "icon": "Users",
+      "color": "blue"
+    },
+    {
+      "id": "2",
+      "title": "Pride Center - Youth Programs",
+      "url": "#",
+      "provider": "Local Pride Center",
+      "type": "Youth Services",
+      "icon": "Heart",
+      "color": "pink"
+    },
+    {
+      "id": "3",
+      "title": "Pride Center - Social Events",
+      "url": "#",
+      "provider": "Local Pride Center",
+      "type": "Community",
+      "icon": "Users",
+      "color": "purple"
+    },
+    {
+      "id": "4",
+      "title": "Rainbow Health - Primary Care",
+      "url": "#",
+      "provider": "Rainbow Health Clinic",
+      "type": "Healthcare",
+      "icon": "Activity",
+      "color": "cyan"
+    },
+    {
+      "id": "5",
+      "title": "Rainbow Health - Hormone Therapy",
+      "url": "#",
+      "provider": "Rainbow Health Clinic",
+      "type": "Healthcare",
+      "icon": "Activity",
+      "color": "pink"
+    },
+    {
+      "id": "6",
+      "title": "Trans Lifeline - 24/7 Hotline",
+      "url": "#",
+      "provider": "Trans Lifeline",
+      "type": "Crisis Support",
+      "icon": "Phone",
+      "color": "magenta"
+    },
+    {
+      "id": "7",
+      "title": "Trevor Project - Crisis Chat",
+      "url": "#",
+      "provider": "The Trevor Project",
+      "type": "Crisis Support",
+      "icon": "Phone",
+      "color": "green"
+    },
+    {
+      "id": "8",
+      "title": "Legal Aid - Name Change Help",
+      "url": "#",
+      "provider": "LGBTQ Legal Services",
+      "type": "Legal Services",
+      "icon": "Shield",
+      "color": "purple"
+    },
+    {
+      "id": "9",
+      "title": "Safe Housing Network",
+      "url": "#",
+      "provider": "Rainbow Housing Collective",
+      "type": "Housing",
+      "icon": "Home",
+      "color": "green"
+    },
+    {
+      "id": "10",
+      "title": "Scholarship Resources",
+      "url": "#",
+      "provider": "LGBTQ Education Fund",
+      "type": "Education",
+      "icon": "GraduationCap",
+      "color": "cyan"
+    },
+    {
+      "id": "11",
+      "title": "Job Training & Placement",
+      "url": "#",
+      "provider": "Pride Works",
+      "type": "Employment",
+      "icon": "Briefcase",
+      "color": "magenta"
+    },
+    {
+      "id": "12",
+      "title": "LGBTQ Resource Library",
+      "url": "#",
+      "provider": "Community Library",
+      "type": "Education",
+      "icon": "BookOpen",
+      "color": "blue"
+    }
+  ]
+}
