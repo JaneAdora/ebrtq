@@ -2,8 +2,8 @@
   "resources": [
     {
       "id": "10",
-      "title": "TEST TITLE",
-      "url": "#",
+      "title": "Scholarship Resources",
+      "url": "google.com",
       "provider": "LGBTQ Education Fund",
       "type": "Education",
       "icon": "GraduationCap",
