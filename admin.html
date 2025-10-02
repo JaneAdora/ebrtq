@@ -640,14 +640,24 @@
             }
         ];
 
-        function login() {
+        async function login() {
             const password = document.getElementById('password').value;
             if (password === ADMIN_PASSWORD) {
                 document.getElementById('loginForm').classList.add('hidden');
                 document.getElementById('editor').classList.remove('hidden');
-                loadResources();
+                
+                // Show loading message
+                const editor = document.getElementById('editor');
+                editor.innerHTML = '<div style="text-align: center; padding: 50px;"><h2>Loading current data from GitHub...</h2><p>Please wait...</p></div>';
+                
+                // Load data from GitHub
+                await loadResources();
+                
+                // Restore editor content
+                editor.innerHTML = document.querySelector('.editor-template').innerHTML;
                 loadSiteSettings();
                 renderCustomTypes();
+                renderResources();
                 
                 // Open the resources accordion by default
                 toggleAccordion('resources');
@@ -662,18 +672,39 @@
             document.getElementById('password').value = '';
         }
 
-        function loadResources() {
-            // Load the real resources data
-            resources = [...realResources];
-            renderResources();
+        async function loadResources() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json');
+                const data = await response.json();
+                
+                if (data.resources) {
+                    resources = data.resources;
+                }
+                if (data.siteSettings) {
+                    siteSettings = data.siteSettings;
+                }
+                if (data.customTypes) {
+                    customTypes = data.customTypes;
+                }
+                
+                renderResources();
+                loadSiteSettings();
+                renderCustomTypes();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Failed to load current data from GitHub. Using defaults.');
+                // Load the real resources data as fallback
+                resources = [...realResources];
+                renderResources();
+            }
         }
 
         function loadSiteSettings() {
             // Load site settings into the form
-            document.getElementById('pageTitle').value = siteSettings.pageTitle;
-            document.getElementById('h1').value = siteSettings.h1;
-            document.getElementById('tagline').value = siteSettings.tagline;
-            document.getElementById('metaDescription').value = siteSettings.metaDescription;
+            document.getElementById('pageTitle').value = siteSettings.pageTitle || '';
+            document.getElementById('h1').value = siteSettings.h1 || '';
+            document.getElementById('tagline').value = siteSettings.tagline || '';
+            document.getElementById('metaDescription').value = siteSettings.metaDescription || '';
         }
 
         function updateSiteSettings() {
