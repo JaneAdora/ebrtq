@@ -82,6 +82,15 @@
       "color": "green"
     },
     {
+      "id": "10",
+      "title": "Scholarship Resources",
+      "url": "#",
+      "provider": "LGBTQ Education Fund",
+      "type": "Education",
+      "icon": "GraduationCap",
+      "color": "cyan"
+    },
+    {
       "id": "11",
       "title": "Job Training & Placement",
       "url": "#",
@@ -89,15 +98,6 @@
       "type": "Employment",
       "icon": "Briefcase",
       "color": "magenta"
-    },
-    {
-      "id": "12",
-      "title": "LGBTQ Resource Library",
-      "url": "#",
-      "provider": "Community Library",
-      "type": "Education",
-      "icon": "BookOpen",
-      "color": "blue"
     }
   ],
   "siteSettings": {
