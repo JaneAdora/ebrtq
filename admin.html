@@ -692,7 +692,7 @@
                 renderCustomTypes();
             } catch (error) {
                 console.error('Error loading data:', error);
-                alert('Failed to load current data from GitHub. Using defaults.');
+                alert('Failed to load current data. Using defaults.');
                 // Load the real resources data as fallback
                 resources = [...realResources];
                 renderResources();
