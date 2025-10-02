@@ -4,7 +4,8 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Trash2, Plus, Save, Eye, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { ToggleSwitch } from "./ui/toggle-switch";
+import { Trash2, Plus, Save, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "./ui/alert";
 
 interface Resource {
@@ -56,7 +57,7 @@ export function RealContentEditor() {
     setIsLoading(true);
     try {
       // Load from the actual JSON file
-      const response = await fetch('/src/data/resources.json');
+      const response = await fetch('https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json');
       const data = await response.json();
       setResources(data.resources);
     } catch (error) {
@@ -157,14 +158,13 @@ export function RealContentEditor() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">EBRTQ Content Editor</h1>
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              onClick={() => setShowPreview(!showPreview)}
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              {showPreview ? "Edit" : "Preview"}
-            </Button>
+          <div className="flex gap-4 items-center">
+            <ToggleSwitch
+              isOn={showPreview}
+              onToggle={() => setShowPreview(!showPreview)}
+              leftLabel="Edit"
+              rightLabel="Preview"
+            />
             <Button 
               onClick={saveChanges}
               disabled={saveStatus === 'saving'}

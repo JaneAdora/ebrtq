@@ -4,8 +4,27 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/admin.html",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/src/data/resources.json",
+      "destination": "/src/data/resources.json"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ]
 }

@@ -5,7 +5,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { resources, password } = req.body;
+  const { resources, siteSettings, customTypes, password } = req.body;
 
   // Simple password check
   if (password !== 'ebrtq2025') {
@@ -13,19 +13,77 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // In a real implementation, this would:
-    // 1. Validate the resources data
-    // 2. Create a GitHub commit
-    // 3. Push to the repository
-    // 4. Trigger Vercel deployment
+    // GitHub API configuration
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const REPO_OWNER = 'JaneAdora';
+    const REPO_NAME = 'ebrtq';
+    const FILE_PATH = 'src/data/resources.json';
 
-    // For now, we'll just simulate success
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Environment check:', {
+      hasToken: !!GITHUB_TOKEN,
+      tokenLength: GITHUB_TOKEN ? GITHUB_TOKEN.length : 0,
+      tokenPrefix: GITHUB_TOKEN ? GITHUB_TOKEN.substring(0, 10) : 'none',
+      allEnvVars: Object.keys(process.env).filter(key => key.includes('GITHUB') || key.includes('VERCEL'))
+    });
+
+    if (!GITHUB_TOKEN) {
+      throw new Error('GitHub token not configured');
+    }
+
+    // Get current file to get the SHA
+    const currentFileResponse = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+      {
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      }
+    );
+
+    if (!currentFileResponse.ok) {
+      throw new Error(`Failed to get current file: ${currentFileResponse.statusText}`);
+    }
+
+    const currentFile = await currentFileResponse.json();
+    
+    // Create the new content
+    const newContent = {
+      resources,
+      siteSettings,
+      customTypes
+    };
+    
+    const encodedContent = Buffer.from(JSON.stringify(newContent, null, 2)).toString('base64');
+
+    // Update the file
+    const updateResponse = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `Update resources - ${new Date().toISOString()}`,
+          content: encodedContent,
+          sha: currentFile.sha
+        })
+      }
+    );
+
+    if (!updateResponse.ok) {
+      const errorData = await updateResponse.json();
+      throw new Error(`Failed to update file: ${updateResponse.statusText} - ${JSON.stringify(errorData)}`);
+    }
 
     res.status(200).json({ 
       success: true, 
-      message: 'Resources saved successfully',
-      resources: resources.length
+      message: 'Resources saved successfully to GitHub',
+      resources: resources.length,
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Error saving content:', error);

@@ -4,7 +4,8 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Trash2, Plus, Save, Eye } from "lucide-react";
+import { ToggleSwitch } from "./ui/toggle-switch";
+import { Trash2, Plus, Save } from "lucide-react";
 
 interface Resource {
   id: string;
@@ -127,14 +128,13 @@ export function AdminEditor() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">EBRTQ Content Editor</h1>
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              onClick={() => setShowPreview(!showPreview)}
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              {showPreview ? "Edit" : "Preview"}
-            </Button>
+          <div className="flex gap-4 items-center">
+            <ToggleSwitch
+              isOn={showPreview}
+              onToggle={() => setShowPreview(!showPreview)}
+              leftLabel="Edit"
+              rightLabel="Preview"
+            />
             <Button onClick={saveChanges}>
               <Save className="w-4 h-4 mr-2" />
               Save Changes
