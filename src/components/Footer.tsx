@@ -9,12 +9,11 @@ export function Footer() {
     >
       <div className="text-center">
         <div 
-          className="opacity-90 px-4 sm:px-8"
+          className="opacity-90 px-12 sm:px-16 md:px-20 lg:px-24"
           style={{
-            maxWidth: '50vw',
-            width: '50vw',
+            maxWidth: '90vw',
             margin: '0 auto',
-            padding: '0 16px'
+            padding: '0 3rem'
           }}
         >
           <p 
@@ -24,11 +23,16 @@ export function Footer() {
               color: '#00F5FF',
               textShadow: '0 0 5px rgba(0, 245, 255, 0.3)',
               margin: 0,
-              padding: 0,
-              textAlign: 'center'
+              padding: '1rem 0',
+              textAlign: 'center',
+              lineHeight: '1.6',
+              whiteSpace: 'normal',
+              wordWrap: 'break-word'
             }}
           >
-            Made with <span style={{ color: '#5BCEFA' }}>💙</span><span style={{ color: '#F5A9B8' }}>💗</span><span style={{ color: '#FFFFFF' }}>🤍</span><br />from The Baton Rouge Chapter<br />of Louisiana Trans Advocates
+            Made with <span style={{ color: '#5BCEFA' }}>💙</span><span style={{ color: '#F5A9B8' }}>💗</span><span style={{ color: '#FFFFFF' }}>🤍</span><br />
+            from The Baton Rouge Chapter<br />
+            of Louisiana Trans Advocates
           </p>
         </div>
       </div>
