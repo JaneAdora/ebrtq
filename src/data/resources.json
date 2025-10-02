@@ -2,7 +2,7 @@
   "resources": [
     {
       "id": "10",
-      "title": "WORKING TEST",
+      "title": "DEBUG TEST",
       "url": "#",
       "provider": "LGBTQ Education Fund",
       "type": "Education",
@@ -12,7 +12,7 @@
   ],
   "siteSettings": {
     "pageTitle": "EBRTQ - East Baton Rouge Trans & Queer Resources",
-    "h1": "EBRTQ",
+    "h1": "a",
     "tagline": "→ Connecting Our Community to Resources ←",
     "metaDescription": "Find LGBTQ+ resources, support groups, healthcare, crisis support, and community services in East Baton Rouge. Connecting our trans and queer community to vital resources."
   },
