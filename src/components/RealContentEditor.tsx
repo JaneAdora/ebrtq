@@ -57,7 +57,7 @@ export function RealContentEditor() {
     setIsLoading(true);
     try {
       // Load from the actual JSON file
-      const response = await fetch('https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json');
+      const response = await fetch(`https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json?v=${Date.now()}`);
       const data = await response.json();
       setResources(data.resources);
     } catch (error) {

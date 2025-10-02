@@ -55,7 +55,7 @@ export default function App() {
     const loadResources = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json');
+        const response = await fetch(`https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json?v=${Date.now()}`);
         if (!response.ok) {
           throw new Error('Failed to load resources');
         }
