@@ -1,33 +1,6 @@
 {
   "resources": [
     {
-      "id": "1",
-      "title": "Pride Center - Support Groups",
-      "url": "#",
-      "provider": "Local Pride Center",
-      "type": "Mental Health",
-      "icon": "Users",
-      "color": "blue"
-    },
-    {
-      "id": "2",
-      "title": "Pride Center - Youth Programs",
-      "url": "#",
-      "provider": "Local Pride Center",
-      "type": "Youth Services",
-      "icon": "Heart",
-      "color": "pink"
-    },
-    {
-      "id": "3",
-      "title": "Pride Center - Social Events",
-      "url": "#",
-      "provider": "Local Pride Center",
-      "type": "Community",
-      "icon": "Users",
-      "color": "purple"
-    },
-    {
       "id": "4",
       "title": "Rainbow Health - Primary Care",
       "url": "#",
@@ -98,15 +71,6 @@
       "type": "Employment",
       "icon": "Briefcase",
       "color": "magenta"
-    },
-    {
-      "id": "12",
-      "title": "LGBTQ Resource Library",
-      "url": "#",
-      "provider": "Community Library",
-      "type": "Education",
-      "icon": "BookOpen",
-      "color": "blue"
     }
   ],
   "siteSettings": {
