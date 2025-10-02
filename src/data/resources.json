@@ -46,15 +46,6 @@
       "color": "pink"
     },
     {
-      "id": "6",
-      "title": "Trans Lifeline - 24/7 Hotline",
-      "url": "#",
-      "provider": "Trans Lifeline",
-      "type": "Crisis Support",
-      "icon": "Phone",
-      "color": "magenta"
-    },
-    {
       "id": "7",
       "title": "Trevor Project - Crisis Chat",
       "url": "#",
@@ -82,15 +73,6 @@
       "color": "green"
     },
     {
-      "id": "10",
-      "title": "Scholarship Resources",
-      "url": "#",
-      "provider": "LGBTQ Education Fund",
-      "type": "Education",
-      "icon": "GraduationCap",
-      "color": "cyan"
-    },
-    {
       "id": "11",
       "title": "Job Training & Placement",
       "url": "#",
@@ -98,15 +80,6 @@
       "type": "Employment",
       "icon": "Briefcase",
       "color": "magenta"
-    },
-    {
-      "id": "12",
-      "title": "LGBTQ Resource Library",
-      "url": "#",
-      "provider": "Community Library",
-      "type": "Education",
-      "icon": "BookOpen",
-      "color": "blue"
     }
   ],
   "siteSettings": {
