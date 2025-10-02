@@ -98,6 +98,24 @@
       "type": "Education",
       "icon": "BookOpen",
       "color": "blue"
+    },
+    {
+      "id": "13",
+      "title": "New Resource",
+      "url": "",
+      "provider": "",
+      "type": "Mental Health",
+      "icon": "Users",
+      "color": "blue"
+    },
+    {
+      "id": "14",
+      "title": "New Resource",
+      "url": "",
+      "provider": "",
+      "type": "Mental Health",
+      "icon": "Users",
+      "color": "blue"
     }
   ],
   "siteSettings": {
