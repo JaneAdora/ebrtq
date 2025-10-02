@@ -31,8 +31,6 @@ export function ResourceLink({ title, url, icon: Icon, color }: ResourceLinkProp
   return (
     <a
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
       className="flex items-center gap-4 p-4 border-4 transition-all duration-200 hover:scale-105"
       style={{
         borderColor: colors[color],

@@ -49,6 +49,20 @@ export default function App() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+  
+  // Toggle section collapse
+  const toggleSection = (sectionId: string) => {
+    setCollapsedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
+  };
   
   // Load resources dynamically
   useEffect(() => {
@@ -240,63 +254,97 @@ export default function App() {
         {/* Resources Display */}
         <div className="space-y-8">
           {viewMode === 'provider' ? (
-            Object.entries(byProvider).map(([provider, providerResources]) => (
-              <div key={provider}>
-                <h2 
-                  className="mb-4 pb-2 border-b-4"
-                  style={{
-                    fontFamily: "'Orbitron', monospace",
-                    fontSize: '1.75rem',
-                    letterSpacing: '0.15em',
-                    borderColor: '#BB86FC',
-                    color: '#FFFFFF',
-                    textShadow: '0 0 20px rgba(187, 134, 252, 0.8)'
-                  }}
-                >
-                  <span style={{ color: '#BB86FC' }}>▸</span> {provider}
-                </h2>
-                <div className="space-y-3">
-                  {providerResources.map((resource) => (
-                    <ResourceLink
-                      key={resource.id}
-                      title={resource.title}
-                      url={resource.url}
-                      icon={resource.icon}
-                      color={resource.color}
-                    />
-                  ))}
+            Object.entries(byProvider).map(([provider, providerResources]) => {
+              const sectionId = `provider-${provider}`;
+              const isCollapsed = collapsedSections.has(sectionId);
+              
+              return (
+                <div key={provider}>
+                  <h2 
+                    className="mb-4 pb-2 border-b-4 cursor-pointer transition-all duration-300 hover:opacity-80"
+                    onClick={() => toggleSection(sectionId)}
+                    style={{
+                      fontFamily: "'Orbitron', monospace",
+                      fontSize: '1.75rem',
+                      letterSpacing: '0.15em',
+                      borderColor: '#BB86FC',
+                      color: '#FFFFFF',
+                      textShadow: '0 0 20px rgba(187, 134, 252, 0.8)'
+                    }}
+                  >
+                    <span 
+                      style={{ 
+                        color: '#BB86FC',
+                        transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)',
+                        display: 'inline-block',
+                        transition: 'transform 0.3s ease'
+                      }}
+                    >
+                      ▸
+                    </span> {provider}
+                  </h2>
+                  {!isCollapsed && (
+                    <div className="space-y-3 mt-3">
+                      {providerResources.map((resource) => (
+                        <ResourceLink
+                          key={resource.id}
+                          title={resource.title}
+                          url={resource.url}
+                          icon={resource.icon}
+                          color={resource.color}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
-            Object.entries(byType).map(([type, typeResources]) => (
-              <div key={type}>
-                <h2 
-                  className="mb-4 pb-2 border-b-4"
-                  style={{
-                    fontFamily: "'Orbitron', monospace",
-                    fontSize: '1.75rem',
-                    letterSpacing: '0.15em',
-                    borderColor: '#FF006E',
-                    color: '#FFFFFF',
-                    textShadow: '0 0 20px rgba(255, 0, 110, 0.8)'
-                  }}
-                >
-                  <span style={{ color: '#FF006E' }}>▸</span> {type}
-                </h2>
-                <div className="space-y-3">
-                  {typeResources.map((resource) => (
-                    <ResourceLink
-                      key={resource.id}
-                      title={resource.title}
-                      url={resource.url}
-                      icon={resource.icon}
-                      color={resource.color}
-                    />
-                  ))}
+            Object.entries(byType).map(([type, typeResources]) => {
+              const sectionId = `type-${type}`;
+              const isCollapsed = collapsedSections.has(sectionId);
+              
+              return (
+                <div key={type}>
+                  <h2 
+                    className="mb-4 pb-2 border-b-4 cursor-pointer transition-all duration-300 hover:opacity-80"
+                    onClick={() => toggleSection(sectionId)}
+                    style={{
+                      fontFamily: "'Orbitron', monospace",
+                      fontSize: '1.75rem',
+                      letterSpacing: '0.15em',
+                      borderColor: '#FF006E',
+                      color: '#FFFFFF',
+                      textShadow: '0 0 20px rgba(255, 0, 110, 0.8)'
+                    }}
+                  >
+                    <span 
+                      style={{ 
+                        color: '#FF006E',
+                        transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)',
+                        display: 'inline-block',
+                        transition: 'transform 0.3s ease'
+                      }}
+                    >
+                      ▸
+                    </span> {type}
+                  </h2>
+                  {!isCollapsed && (
+                    <div className="space-y-3 mt-3">
+                      {typeResources.map((resource) => (
+                        <ResourceLink
+                          key={resource.id}
+                          title={resource.title}
+                          url={resource.url}
+                          icon={resource.icon}
+                          color={resource.color}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
         
