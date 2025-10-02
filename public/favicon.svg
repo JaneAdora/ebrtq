@@ -1,0 +1,23 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer white ring -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="#FFFFFF" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Middle pink ring -->
+  <circle cx="16" cy="16" r="12" fill="none" stroke="#F5A9B8" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Inner blue ring -->
+  <circle cx="16" cy="16" r="10" fill="none" stroke="#5BCEFA" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Dark center -->
+  <circle cx="16" cy="16" r="8" fill="#2A2D3A"/>
+</svg>
