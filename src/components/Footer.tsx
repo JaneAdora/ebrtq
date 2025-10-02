@@ -8,16 +8,27 @@ export function Footer() {
       }}
     >
       <div className="text-center">
-        <div className="opacity-75">
+        <div 
+          className="opacity-90 px-4 sm:px-8"
+          style={{
+            maxWidth: '50vw',
+            width: '50vw',
+            margin: '0 auto',
+            padding: '0 16px'
+          }}
+        >
           <p 
             style={{ 
               fontFamily: 'monospace', 
-              fontSize: '0.875rem',
+              fontSize: '0.7rem',
               color: '#00F5FF',
-              textShadow: '0 0 5px rgba(0, 245, 255, 0.3)'
+              textShadow: '0 0 5px rgba(0, 245, 255, 0.3)',
+              margin: 0,
+              padding: 0,
+              textAlign: 'center'
             }}
           >
-            <span style={{ color: '#BB86FC' }}>©</span> 2025 EBRTQ <span style={{ color: '#BB86FC' }}>·</span> Made with <span style={{ color: '#5BCEFA' }}>💙</span><span style={{ color: '#F5A9B8' }}>💗</span><span style={{ color: '#FFFFFF' }}>🤍</span>
+            Made with <span style={{ color: '#5BCEFA' }}>💙</span><span style={{ color: '#F5A9B8' }}>💗</span><span style={{ color: '#FFFFFF' }}>🤍</span><br />from The Baton Rouge Chapter<br />of Louisiana Trans Advocates
           </p>
         </div>
       </div>

@@ -147,13 +147,25 @@ export default function App() {
         animation: 'gradient 15s ease infinite'
       }}
     >
-      <style>{`
-        @keyframes gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
+          <style>{`
+            @keyframes gradient {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            @keyframes gradientShift {
+              0% { background-position: 0% 50%; }
+              25% { background-position: 100% 50%; }
+              50% { background-position: 100% 100%; }
+              75% { background-position: 0% 100%; }
+              100% { background-position: 0% 50%; }
+            }
+            @keyframes glowPulse {
+              0% { text-shadow: 0 0 20px rgba(245, 169, 184, 0.8), 0 0 30px rgba(187, 134, 252, 0.6); }
+              50% { text-shadow: 0 0 30px rgba(245, 169, 184, 1), 0 0 40px rgba(187, 134, 252, 0.8), 0 0 50px rgba(91, 206, 250, 0.6); }
+              100% { text-shadow: 0 0 20px rgba(245, 169, 184, 0.8), 0 0 30px rgba(187, 134, 252, 0.6); }
+            }
+          `}</style>
       <div className="w-full max-w-2xl">
         <Header />
         
@@ -162,8 +174,8 @@ export default function App() {
         <div className="flex gap-4 mb-8 justify-center">
           <button
             onClick={() => setViewMode('provider')}
-            className={`px-6 py-3 border-4 transition-all ${
-              viewMode === 'provider' ? 'scale-105' : 'opacity-60'
+            className={`px-6 py-3 border-4 transition-all duration-300 ${
+              viewMode === 'provider' ? 'scale-105' : 'opacity-60 hover:opacity-100 hover:scale-110'
             }`}
             style={{
               borderColor: viewMode === 'provider' ? '#BB86FC' : 'rgba(255, 255, 255, 0.3)',
@@ -174,14 +186,28 @@ export default function App() {
               backgroundColor: 'rgba(42, 45, 58, 0.7)',
               backdropFilter: 'blur(10px)'
             }}
+            onMouseEnter={(e) => {
+              if (viewMode !== 'provider') {
+                e.currentTarget.style.borderColor = '#5BCEFA';
+                e.currentTarget.style.boxShadow = '0 0 15px rgba(91, 206, 250, 0.4)';
+                e.currentTarget.style.color = '#5BCEFA';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (viewMode !== 'provider') {
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.color = '';
+              }
+            }}
           >
             BY PROVIDER
           </button>
           
           <button
             onClick={() => setViewMode('type')}
-            className={`px-6 py-3 border-4 transition-all ${
-              viewMode === 'type' ? 'scale-105' : 'opacity-60'
+            className={`px-6 py-3 border-4 transition-all duration-300 ${
+              viewMode === 'type' ? 'scale-105' : 'opacity-60 hover:opacity-100 hover:scale-110'
             }`}
             style={{
               borderColor: viewMode === 'type' ? '#FF006E' : 'rgba(255, 255, 255, 0.3)',
@@ -192,8 +218,22 @@ export default function App() {
               backgroundColor: 'rgba(42, 45, 58, 0.7)',
               backdropFilter: 'blur(10px)'
             }}
+            onMouseEnter={(e) => {
+              if (viewMode !== 'type') {
+                e.currentTarget.style.borderColor = '#F5A9B8';
+                e.currentTarget.style.boxShadow = '0 0 15px rgba(245, 169, 184, 0.4)';
+                e.currentTarget.style.color = '#F5A9B8';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (viewMode !== 'type') {
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.color = '';
+              }
+            }}
           >
-            BY TYPE
+            BY RESOURCE
           </button>
         </div>
         
@@ -261,32 +301,43 @@ export default function App() {
         </div>
         
         {/* Resource Suggestion Button */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 mt-12 px-4">
           <a 
             href="mailto:jane@repcap.com,cassiegresham97@gmail.com?subject=Resource Suggestion for EBRTQ&body=Hi! I know of a resource that should be added to EBRTQ..."
-            className="inline-block px-6 py-3 border-2 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg"
+            className="inline-block transition-all duration-300 ease-in-out hover:scale-105 text-xs sm:text-sm relative spark-container"
             style={{
-              borderColor: '#5BCEFA',
-              boxShadow: '4px 4px 0 0 #5BCEFA, 0 0 15px rgba(91, 206, 250, 0.3)',
-              imageRendering: 'pixelated',
-              backgroundColor: 'rgba(91, 206, 250, 0.1)',
               fontFamily: 'monospace',
               color: '#5BCEFA',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9rem',
-              fontWeight: '500'
+              textDecoration: 'underline',
+              fontWeight: '500',
+              lineHeight: '1.4',
+              whiteSpace: 'normal',
+              wordWrap: 'break-word',
+              textAlign: 'center',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '2px',
+              background: 'linear-gradient(45deg, #5BCEFA, #F5A9B8, #BB86FC, #5BCEFA)',
+              backgroundSize: '300% 300%',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              animation: 'gradientShift 3s ease-in-out infinite',
+              textShadow: '0 0 10px rgba(91, 206, 250, 0.5)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = '6px 6px 0 0 #5BCEFA, 0 0 25px rgba(91, 206, 250, 0.5)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.animation = 'gradientShift 0.8s ease-in-out infinite, glowPulse 0.6s ease-in-out infinite';
+              e.currentTarget.style.textDecorationThickness = '3px';
+              e.currentTarget.style.textShadow = '0 0 20px rgba(245, 169, 184, 0.8), 0 0 30px rgba(187, 134, 252, 0.6)';
+              e.currentTarget.style.transform = 'scale(1.05)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '4px 4px 0 0 #5BCEFA, 0 0 15px rgba(91, 206, 250, 0.3)';
-              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.animation = 'gradientShift 3s ease-in-out infinite';
+              e.currentTarget.style.textDecorationThickness = '2px';
+              e.currentTarget.style.textShadow = '0 0 10px rgba(91, 206, 250, 0.5)';
+              e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            <span style={{ color: '#5BCEFA' }}>💡</span> Know a resource we should add? Shoot us a message!
+            Know a resource we should add?<br />Shoot us a message!
           </a>
         </div>
         
