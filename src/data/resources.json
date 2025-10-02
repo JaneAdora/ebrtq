@@ -55,20 +55,56 @@
       "color": "magenta"
     },
     {
-      "id": "12",
-      "title": "LGBTQ Resource Library",
+      "id": "7",
+      "title": "Trevor Project - Crisis Chat",
       "url": "#",
-      "provider": "Community Library",
+      "provider": "The Trevor Project",
+      "type": "Crisis Support",
+      "icon": "Phone",
+      "color": "green"
+    },
+    {
+      "id": "8",
+      "title": "Legal Aid - Name Change Help",
+      "url": "#",
+      "provider": "LGBTQ Legal Services",
+      "type": "Legal Services",
+      "icon": "Shield",
+      "color": "purple"
+    },
+    {
+      "id": "9",
+      "title": "Safe Housing Network",
+      "url": "#",
+      "provider": "Rainbow Housing Collective",
+      "type": "Housing",
+      "icon": "Home",
+      "color": "green"
+    },
+    {
+      "id": "10",
+      "title": "Scholarship Resources",
+      "url": "#",
+      "provider": "LGBTQ Education Fund",
       "type": "Education",
-      "icon": "BookOpen",
-      "color": "blue"
+      "icon": "GraduationCap",
+      "color": "cyan"
+    },
+    {
+      "id": "11",
+      "title": "z",
+      "url": "y",
+      "provider": "x",
+      "type": "Employment",
+      "icon": "Briefcase",
+      "color": "magenta"
     }
   ],
   "siteSettings": {
-    "pageTitle": "1",
-    "h1": "2",
-    "tagline": "3",
-    "metaDescription": "4"
+    "pageTitle": "EBRTQ - East Baton Rouge Trans & Queer Resources",
+    "h1": "h1",
+    "tagline": "→ Connecting Our Community to Resources ←",
+    "metaDescription": "Find LGBTQ+ resources, support groups, healthcare, crisis support, and community services in East Baton Rouge. Connecting our trans and queer community to vital resources."
   },
   "customTypes": []
 }
