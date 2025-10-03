@@ -18,7 +18,7 @@ export function Footer() {
         >
           <p 
             style={{ 
-              fontFamily: 'monospace', 
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace", 
               fontSize: '0.7rem',
               color: '#00F5FF',
               textShadow: '0 0 5px rgba(0, 245, 255, 0.3)',

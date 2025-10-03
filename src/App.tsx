@@ -12,9 +12,24 @@ import {
   Activity,
   Briefcase,
   GraduationCap,
-  Shield
+  Shield,
+  Mail
 } from "lucide-react";
 // Dynamic loading - no static import
+
+// Page content animation
+const pageAnimation = `
+  @keyframes pageContentFadeIn {
+    0% { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
 
 type ViewMode = 'provider' | 'type';
 
@@ -181,35 +196,42 @@ export default function App() {
             }
           `}</style>
       <div className="w-full max-w-2xl">
+        <style>{pageAnimation}</style>
         <Header />
         
         
         {/* View Toggle */}
-        <div className="flex gap-4 mb-8 justify-center">
+        <div 
+          className="flex gap-4 mb-8 justify-center"
+          style={{
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
+          }}
+        >
           <button
             onClick={() => setViewMode('provider')}
             className={`px-6 py-3 border-4 transition-all duration-300 ${
               viewMode === 'provider' ? 'scale-105' : 'opacity-60 hover:opacity-100 hover:scale-110'
             }`}
             style={{
-              borderColor: viewMode === 'provider' ? '#BB86FC' : 'rgba(255, 255, 255, 0.3)',
-              boxShadow: viewMode === 'provider' ? '4px 4px 0 0 #BB86FC, 0 0 20px rgba(187, 134, 252, 0.3)' : 'none',
-              fontFamily: 'monospace',
+              borderColor: viewMode === 'provider' ? '#00F5FF' : 'rgba(0, 245, 255, 0.3)',
+              boxShadow: viewMode === 'provider' ? '4px 4px 0 0 #00F5FF, 0 0 25px rgba(0, 245, 255, 0.6)' : 'none',
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace",
               letterSpacing: '0.1em',
               imageRendering: 'pixelated',
               backgroundColor: 'rgba(42, 45, 58, 0.7)',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: 'blur(10px)',
+              cursor: viewMode === 'provider' ? 'default' : 'pointer'
             }}
             onMouseEnter={(e) => {
               if (viewMode !== 'provider') {
-                e.currentTarget.style.borderColor = '#5BCEFA';
-                e.currentTarget.style.boxShadow = '0 0 15px rgba(91, 206, 250, 0.4)';
-                e.currentTarget.style.color = '#5BCEFA';
+                e.currentTarget.style.borderColor = '#00F5FF';
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 245, 255, 0.5)';
+                e.currentTarget.style.color = '#00F5FF';
               }
             }}
             onMouseLeave={(e) => {
               if (viewMode !== 'provider') {
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.borderColor = 'rgba(0, 245, 255, 0.3)';
                 e.currentTarget.style.boxShadow = 'none';
                 e.currentTarget.style.color = '';
               }
@@ -224,24 +246,25 @@ export default function App() {
               viewMode === 'type' ? 'scale-105' : 'opacity-60 hover:opacity-100 hover:scale-110'
             }`}
             style={{
-              borderColor: viewMode === 'type' ? '#FF006E' : 'rgba(255, 255, 255, 0.3)',
-              boxShadow: viewMode === 'type' ? '4px 4px 0 0 #FF006E, 0 0 20px rgba(255, 0, 110, 0.3)' : 'none',
-              fontFamily: 'monospace',
+              borderColor: viewMode === 'type' ? '#FF69B4' : 'rgba(255, 105, 180, 0.3)',
+              boxShadow: viewMode === 'type' ? '4px 4px 0 0 #FF69B4, 0 0 25px rgba(255, 105, 180, 0.6)' : 'none',
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace",
               letterSpacing: '0.1em',
               imageRendering: 'pixelated',
               backgroundColor: 'rgba(42, 45, 58, 0.7)',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: 'blur(10px)',
+              cursor: viewMode === 'type' ? 'default' : 'pointer'
             }}
             onMouseEnter={(e) => {
               if (viewMode !== 'type') {
-                e.currentTarget.style.borderColor = '#F5A9B8';
-                e.currentTarget.style.boxShadow = '0 0 15px rgba(245, 169, 184, 0.4)';
-                e.currentTarget.style.color = '#F5A9B8';
+                e.currentTarget.style.borderColor = '#FF69B4';
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 105, 180, 0.5)';
+                e.currentTarget.style.color = '#FF69B4';
               }
             }}
             onMouseLeave={(e) => {
               if (viewMode !== 'type') {
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.borderColor = 'rgba(255, 105, 180, 0.3)';
                 e.currentTarget.style.boxShadow = 'none';
                 e.currentTarget.style.color = '';
               }
@@ -252,7 +275,12 @@ export default function App() {
         </div>
         
         {/* Resources Display */}
-        <div className="space-y-8">
+        <div 
+          className="space-y-8"
+          style={{
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
+          }}
+        >
           {viewMode === 'provider' ? (
             Object.entries(byProvider).map(([provider, providerResources]) => {
               const sectionId = `provider-${provider}`;
@@ -269,7 +297,8 @@ export default function App() {
                       letterSpacing: '0.15em',
                       borderColor: '#BB86FC',
                       color: '#FFFFFF',
-                      textShadow: '0 0 20px rgba(187, 134, 252, 0.8)'
+                      textShadow: '0 0 20px rgba(187, 134, 252, 0.8)',
+                      cursor: 'pointer'
                     }}
                   >
                     <span 
@@ -277,7 +306,9 @@ export default function App() {
                         color: '#BB86FC',
                         transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)',
                         display: 'inline-block',
-                        transition: 'transform 0.3s ease'
+                        transition: 'transform 0.3s ease',
+                        fontSize: '1.5em',
+                        marginRight: '0.5em'
                       }}
                     >
                       ▸
@@ -313,17 +344,20 @@ export default function App() {
                       fontFamily: "'Orbitron', monospace",
                       fontSize: '1.75rem',
                       letterSpacing: '0.15em',
-                      borderColor: '#FF006E',
+                      borderColor: '#FF69B4',
                       color: '#FFFFFF',
-                      textShadow: '0 0 20px rgba(255, 0, 110, 0.8)'
+                      textShadow: '0 0 20px rgba(255, 105, 180, 0.9)',
+                      cursor: 'pointer'
                     }}
                   >
                     <span 
                       style={{ 
-                        color: '#FF006E',
+                        color: '#FF69B4',
                         transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)',
                         display: 'inline-block',
-                        transition: 'transform 0.3s ease'
+                        transition: 'transform 0.3s ease',
+                        fontSize: '1.5em',
+                        marginRight: '0.5em'
                       }}
                     >
                       ▸
@@ -349,12 +383,17 @@ export default function App() {
         </div>
         
         {/* Resource Suggestion Button */}
-        <div className="text-center mb-8 mt-12 px-4">
+        <div 
+          className="text-center mb-8 mt-12 px-4"
+          style={{
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
+          }}
+        >
           <a 
             href="mailto:jane@repcap.com,cassiegresham97@gmail.com?subject=Resource Suggestion for EBRTQ&body=Hi! I know of a resource that should be added to EBRTQ..."
             className="inline-block transition-all duration-300 ease-in-out hover:scale-105 text-xs sm:text-sm relative spark-container"
             style={{
-              fontFamily: 'monospace',
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace",
               color: '#5BCEFA',
               textDecoration: 'underline',
               fontWeight: '500',
@@ -377,19 +416,51 @@ export default function App() {
               e.currentTarget.style.textDecorationThickness = '3px';
               e.currentTarget.style.textShadow = '0 0 20px rgba(245, 169, 184, 0.8), 0 0 30px rgba(187, 134, 252, 0.6)';
               e.currentTarget.style.transform = 'scale(1.05)';
+              
+              // Update icon color and glow on hover
+              const mailIcon = e.currentTarget.querySelector('svg');
+              if (mailIcon) {
+                mailIcon.style.color = '#F5A9B8';
+                mailIcon.style.filter = 'drop-shadow(0 0 8px rgba(245, 169, 184, 0.8))';
+              }
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.animation = 'gradientShift 3s ease-in-out infinite';
               e.currentTarget.style.textDecorationThickness = '2px';
               e.currentTarget.style.textShadow = '0 0 10px rgba(91, 206, 250, 0.5)';
               e.currentTarget.style.transform = 'scale(1)';
+              
+              // Reset icon color and glow
+              const mailIcon = e.currentTarget.querySelector('svg');
+              if (mailIcon) {
+                mailIcon.style.color = '#5BCEFA';
+                mailIcon.style.filter = 'drop-shadow(0 0 3px rgba(91, 206, 250, 0.5))';
+              }
             }}
           >
-            Know a resource we should add?<br />Shoot us a message!
+            Know a resource we should add?<br />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', lineHeight: '1.2' }}>
+              <Mail 
+                size={14} 
+                style={{ 
+                  display: 'inline-block',
+                  color: '#5BCEFA',
+                  filter: 'drop-shadow(0 0 3px rgba(91, 206, 250, 0.5))',
+                  transition: 'color 0.3s ease, filter 0.3s ease'
+                }} 
+              />
+              Message us!
+            </span>
           </a>
         </div>
         
-        <Footer />
+        <div
+          style={{
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
+          }}
+        >
+          <Footer />
+        </div>
       </div>
     </div>
   );
