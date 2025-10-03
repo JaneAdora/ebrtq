@@ -26,23 +26,8 @@
   <!-- Main container for centering -->
   <g transform="translate(600, 315)">
     
-    <!-- EBRTQ Text -->
-    <text 
-      x="0" 
-      y="-80" 
-      text-anchor="middle" 
-      font-family="'Orbitron', monospace" 
-      font-size="120" 
-      font-weight="900" 
-      fill="#FFFFFF" 
-      filter="url(#textGlow)"
-      style="letter-spacing: 0.1em;"
-    >
-      EBRTQ
-    </text>
-    
     <!-- Circular Logo -->
-    <g transform="translate(0, 40)">
+    <g transform="translate(0, 0)">
       <!-- Outer white ring -->
       <circle cx="0" cy="0" r="80" fill="none" stroke="#FFFFFF" stroke-width="8" filter="url(#ringGlow)"/>
       
@@ -55,6 +40,21 @@
       <!-- Dark center -->
       <circle cx="0" cy="0" r="44" fill="#2A2D3A"/>
     </g>
+    
+    <!-- EBRTQ Text - positioned over the ring like in header -->
+    <text 
+      x="8" 
+      y="30" 
+      text-anchor="middle" 
+      font-family="'Orbitron', monospace" 
+      font-size="120" 
+      font-weight="900" 
+      fill="#FFFFFF" 
+      filter="url(#textGlow)"
+      style="letter-spacing: 0.1em;"
+    >
+      EBRTQ
+    </text>
     
     <!-- Tagline -->
     <text 
