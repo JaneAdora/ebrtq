@@ -77,9 +77,21 @@ export default function App() {
   const [expandedEventDetails, setExpandedEventDetails] = useState<Set<string>>(new Set());
   const [expandedResourceDetails, setExpandedResourceDetails] = useState<Set<string>>(new Set());
   
-  // Check current route
+  // Check current route and manage page state
   const currentPath = window.location.pathname;
-  const isEventsPage = currentPath === '/events';
+  const [currentPage, setCurrentPage] = useState<'resources' | 'events'>(
+    currentPath === '/events' ? 'events' : 'resources'
+  );
+  
+  // Handle page navigation
+  const handlePageChange = (page: 'resources' | 'events') => {
+    setCurrentPage(page);
+    if (page === 'events') {
+      window.history.pushState({}, '', '/events');
+    } else {
+      window.history.pushState({}, '', '/');
+    }
+  };
   
   // Toggle section collapse
   const toggleSection = (sectionId: string) => {
@@ -327,7 +339,7 @@ END:VCALENDAR`;
     }
   ];
   
-  // Group resources by provider
+  // Group resources by provider and sort alphabetically
   const byProvider = resources.reduce((acc, resource) => {
     if (!acc[resource.provider]) {
       acc[resource.provider] = [];
@@ -335,8 +347,13 @@ END:VCALENDAR`;
     acc[resource.provider].push(resource);
     return acc;
   }, {} as Record<string, Resource[]>);
+
+  // Sort resources within each provider alphabetically by title
+  Object.keys(byProvider).forEach(provider => {
+    byProvider[provider].sort((a, b) => a.title.localeCompare(b.title));
+  });
   
-  // Group resources by type
+  // Group resources by type and sort alphabetically
   const byType = resources.reduce((acc, resource) => {
     if (!acc[resource.type]) {
       acc[resource.type] = [];
@@ -344,8 +361,13 @@ END:VCALENDAR`;
     acc[resource.type].push(resource);
     return acc;
   }, {} as Record<string, Resource[]>);
+
+  // Sort resources within each type alphabetically by title
+  Object.keys(byType).forEach(type => {
+    byType[type].sort((a, b) => a.title.localeCompare(b.title));
+  });
   
-  // Group events by month
+  // Group events by month and sort by date
   const eventsByMonth = events.reduce((acc, event) => {
     // Parse date string directly to avoid timezone issues
     const [year, month] = event.date.split('-');
@@ -356,8 +378,18 @@ END:VCALENDAR`;
     acc[monthKey].push(event);
     return acc;
   }, {} as Record<string, typeof events>);
+
+  // Sort events within each month by date (chronological order - oldest first)
+  Object.keys(eventsByMonth).forEach(monthKey => {
+    eventsByMonth[monthKey].sort((a, b) => {
+      // Parse dates directly to avoid timezone issues
+      const dateA = a.date.split('-').join('');
+      const dateB = b.date.split('-').join('');
+      return dateA.localeCompare(dateB); // Chronological order (ascending order)
+    });
+  });
   
-  // Group events by organization
+  // Group events by organization and sort by date
   const eventsByOrganization = events.reduce((acc, event) => {
     if (!acc[event.organization]) {
       acc[event.organization] = [];
@@ -365,14 +397,24 @@ END:VCALENDAR`;
     acc[event.organization].push(event);
     return acc;
   }, {} as Record<string, typeof events>);
+
+  // Sort events within each organization by date (chronological order - oldest first)
+  Object.keys(eventsByOrganization).forEach(organization => {
+    eventsByOrganization[organization].sort((a, b) => {
+      // Parse dates directly to avoid timezone issues
+      const dateA = a.date.split('-').join('');
+      const dateB = b.date.split('-').join('');
+      return dateA.localeCompare(dateB); // Chronological order (ascending order)
+    });
+  });
   
   // Show admin interface if in admin mode
   if (isAdminMode) {
     return <RealContentEditor />;
   }
   
-  // Show events page if on /events route
-  if (isEventsPage) {
+  // Show events page if current page is events
+  if (currentPage === 'events') {
     return (
       <div 
         className="min-h-screen flex flex-col items-center px-4 py-8"
@@ -401,15 +443,240 @@ END:VCALENDAR`;
         `}</style>
         <div className="w-full max-w-2xl">
           <style>{pageAnimation}</style>
-          <Header />
-          
-          {/* Events View Toggle */}
-          <div 
-            className="flex gap-4 mb-8 justify-center"
-            style={{
-              animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
-            }}
-          >
+        <Header 
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+        
+        {/* Glowing Divider Line - Interactive Easter Egg */}
+        <div 
+          style={{
+            width: '50%',
+            height: '2px',
+            margin: '0 auto 32px auto',
+            background: 'linear-gradient(90deg, transparent 0%, #00F5FF 50%, transparent 100%)',
+            boxShadow: '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)',
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
+            divider.style.transform = 'scaleY(2)';
+            
+            // Trigger fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'true';
+                logo.style.transition = 'none';
+                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                
+                h1.style.transition = 'none';
+                h1.style.animation = 'textZoom 2s ease-in-out infinite';
+              }
+            }
+          }}
+          onMouseLeave={(e) => {
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            
+            // Stop fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'false';
+                
+                // Get current animation to determine direction
+                const currentAnimation = logo.style.animation;
+                let stopAnimation = 'spinToStopClockwise 1.5s ease-out forwards';
+                
+                if (currentAnimation.includes('CounterClockwise')) {
+                  stopAnimation = 'spinToStopCounterClockwise 1.5s ease-out forwards';
+                }
+                
+                // Set current rotation for smooth continuation
+                const computedStyle = window.getComputedStyle(logo);
+                const matrix = computedStyle.transform;
+                if (matrix && matrix !== 'none') {
+                  const values = matrix.split('(')[1].split(')')[0].split(',');
+                  const angle = Math.atan2(values[1], values[0]) * (180 / Math.PI);
+                  logo.style.setProperty('--current-rotation', `${angle}deg`);
+                }
+                
+                logo.style.animation = stopAnimation;
+                h1.style.animation = 'textZoom 1.2s ease-out forwards';
+              }
+            }
+          }}
+          onMouseMove={(e) => {
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              
+              if (logo && logo.dataset.spinning === 'true') {
+                const currentX = e.clientX;
+                const logoRect = logo.getBoundingClientRect();
+                const centerX = logoRect.left + logoRect.width / 2;
+                
+                // Determine spin direction based on mouse position relative to center
+                const shouldSpinClockwise = currentX > centerX;
+                const currentAnimation = logo.style.animation;
+                
+                // Change direction if needed
+                if (shouldSpinClockwise && !currentAnimation.includes('Clockwise')) {
+                  logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                } else if (!shouldSpinClockwise && !currentAnimation.includes('CounterClockwise')) {
+                  logo.style.animation = 'coinSpinCounterClockwise 2s linear infinite';
+                }
+              }
+            }
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
+            divider.style.transform = 'scaleY(2)';
+            
+            // Trigger fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'true';
+                logo.style.transition = 'none';
+                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                
+                h1.style.transition = 'none';
+                h1.style.animation = 'textZoom 2s ease-in-out infinite';
+              }
+            }
+          }}
+          onTouchMove={(e) => {
+            e.preventDefault();
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              
+              if (logo && logo.dataset.spinning === 'true') {
+                const touch = e.touches[0];
+                const currentX = touch.clientX;
+                const logoRect = logo.getBoundingClientRect();
+                const centerX = logoRect.left + logoRect.width / 2;
+                
+                // Determine spin direction based on touch position relative to center
+                const shouldSpinClockwise = currentX > centerX;
+                const currentAnimation = logo.style.animation;
+                
+                // Change direction if needed
+                if (shouldSpinClockwise && !currentAnimation.includes('Clockwise')) {
+                  logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                } else if (!shouldSpinClockwise && !currentAnimation.includes('CounterClockwise')) {
+                  logo.style.animation = 'coinSpinCounterClockwise 2s linear infinite';
+                }
+              }
+            }
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            
+            // Stop fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'false';
+                
+                // Get current animation to determine direction
+                const currentAnimation = logo.style.animation;
+                let stopAnimation = 'spinToStopClockwise 1.5s ease-out forwards';
+                
+                if (currentAnimation.includes('CounterClockwise')) {
+                  stopAnimation = 'spinToStopCounterClockwise 1.5s ease-out forwards';
+                }
+                
+                // Set current rotation for smooth continuation
+                const computedStyle = window.getComputedStyle(logo);
+                const matrix = computedStyle.transform;
+                if (matrix && matrix !== 'none') {
+                  const values = matrix.split('(')[1].split(')')[0].split(',');
+                  const angle = Math.atan2(values[1], values[0]) * (180 / Math.PI);
+                  logo.style.setProperty('--current-rotation', `${angle}deg`);
+                }
+                
+                logo.style.animation = stopAnimation;
+                h1.style.animation = 'textZoom 1.2s ease-out forwards';
+              }
+            }
+          }}
+          onTouchCancel={(e) => {
+            e.preventDefault();
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            
+            // Stop fidget animations immediately
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'false';
+                logo.style.animation = 'none';
+                h1.style.animation = 'none';
+              }
+            }
+          }}
+          onClick={(e) => {
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
+            divider.style.transform = 'scaleY(2)';
+            
+            // Trigger fidget animations for 3 seconds
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                h1.style.animation = 'textZoom 2s ease-in-out infinite';
+                
+                // Stop after 3 seconds
+                setTimeout(() => {
+                  divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+                  divider.style.transform = 'scaleY(1)';
+                  logo.style.animation = 'none';
+                  h1.style.animation = 'none';
+                }, 3000);
+              }
+            }
+          }}
+        />
+        
+        {/* Events View Toggle */}
+        <div 
+          className="flex gap-4 mb-8 justify-center"
+          style={{
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
+          }}
+        >
             <button
               onClick={() => setEventsViewMode('month')}
               className={`px-6 py-3 border-4 transition-all duration-300 ${
@@ -485,7 +752,25 @@ END:VCALENDAR`;
             }}
           >
             {eventsViewMode === 'month' ? (
-              Object.entries(eventsByMonth).map(([month, monthEvents]) => {
+              Object.entries(eventsByMonth)
+                .sort(([a], [b]) => {
+                  // Extract year and month from the month key (e.g., "Oct 2025")
+                  const getMonthYear = (monthKey: string) => {
+                    const [monthName, year] = monthKey.split(' ');
+                    const monthIndex = new Date(Date.parse(monthName + " 1, 2000")).getMonth();
+                    return { year: parseInt(year), month: monthIndex };
+                  };
+                  
+                  const aDate = getMonthYear(a);
+                  const bDate = getMonthYear(b);
+                  
+                  // Compare by year first, then by month
+                  if (aDate.year !== bDate.year) {
+                    return aDate.year - bDate.year;
+                  }
+                  return aDate.month - bDate.month;
+                })
+                .map(([month, monthEvents]) => {
                 const sectionId = `month-${month}`;
                 const isCollapsed = collapsedEventsSections.has(sectionId);
                 
@@ -692,7 +977,9 @@ END:VCALENDAR`;
                 );
               })
             ) : (
-              Object.entries(eventsByOrganization).map(([organization, orgEvents]) => {
+              Object.entries(eventsByOrganization)
+                .sort(([a], [b]) => a.localeCompare(b)) // Sort H2 headings alphabetically
+                .map(([organization, orgEvents]) => {
                 const sectionId = `org-${organization}`;
                 const isCollapsed = collapsedEventsSections.has(sectionId);
                 
@@ -1047,8 +1334,232 @@ END:VCALENDAR`;
           `}</style>
       <div className="w-full max-w-2xl">
         <style>{pageAnimation}</style>
-        <Header />
+        <Header 
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
         
+        {/* Glowing Divider Line - Interactive Easter Egg */}
+        <div 
+          style={{
+            width: '50%',
+            height: '2px',
+            margin: '0 auto 32px auto',
+            background: 'linear-gradient(90deg, transparent 0%, #00F5FF 50%, transparent 100%)',
+            boxShadow: '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)',
+            animation: 'pageContentFadeIn 1.5s ease-out 1.2s both',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
+            divider.style.transform = 'scaleY(2)';
+            
+            // Trigger fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'true';
+                logo.style.transition = 'none';
+                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                
+                h1.style.transition = 'none';
+                h1.style.animation = 'textZoom 2s ease-in-out infinite';
+              }
+            }
+          }}
+          onMouseLeave={(e) => {
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            
+            // Stop fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'false';
+                
+                // Get current animation to determine direction
+                const currentAnimation = logo.style.animation;
+                let stopAnimation = 'spinToStopClockwise 1.5s ease-out forwards';
+                
+                if (currentAnimation.includes('CounterClockwise')) {
+                  stopAnimation = 'spinToStopCounterClockwise 1.5s ease-out forwards';
+                }
+                
+                // Set current rotation for smooth continuation
+                const computedStyle = window.getComputedStyle(logo);
+                const matrix = computedStyle.transform;
+                if (matrix && matrix !== 'none') {
+                  const values = matrix.split('(')[1].split(')')[0].split(',');
+                  const angle = Math.atan2(values[1], values[0]) * (180 / Math.PI);
+                  logo.style.setProperty('--current-rotation', `${angle}deg`);
+                }
+                
+                logo.style.animation = stopAnimation;
+                h1.style.animation = 'textZoom 1.2s ease-out forwards';
+              }
+            }
+          }}
+          onMouseMove={(e) => {
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              
+              if (logo && logo.dataset.spinning === 'true') {
+                const currentX = e.clientX;
+                const logoRect = logo.getBoundingClientRect();
+                const centerX = logoRect.left + logoRect.width / 2;
+                
+                // Determine spin direction based on mouse position relative to center
+                const shouldSpinClockwise = currentX > centerX;
+                const currentAnimation = logo.style.animation;
+                
+                // Change direction if needed
+                if (shouldSpinClockwise && !currentAnimation.includes('Clockwise')) {
+                  logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                } else if (!shouldSpinClockwise && !currentAnimation.includes('CounterClockwise')) {
+                  logo.style.animation = 'coinSpinCounterClockwise 2s linear infinite';
+                }
+              }
+            }
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
+            divider.style.transform = 'scaleY(2)';
+            
+            // Trigger fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'true';
+                logo.style.transition = 'none';
+                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                
+                h1.style.transition = 'none';
+                h1.style.animation = 'textZoom 2s ease-in-out infinite';
+              }
+            }
+          }}
+          onTouchMove={(e) => {
+            e.preventDefault();
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              
+              if (logo && logo.dataset.spinning === 'true') {
+                const touch = e.touches[0];
+                const currentX = touch.clientX;
+                const logoRect = logo.getBoundingClientRect();
+                const centerX = logoRect.left + logoRect.width / 2;
+                
+                // Determine spin direction based on touch position relative to center
+                const shouldSpinClockwise = currentX > centerX;
+                const currentAnimation = logo.style.animation;
+                
+                // Change direction if needed
+                if (shouldSpinClockwise && !currentAnimation.includes('Clockwise')) {
+                  logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                } else if (!shouldSpinClockwise && !currentAnimation.includes('CounterClockwise')) {
+                  logo.style.animation = 'coinSpinCounterClockwise 2s linear infinite';
+                }
+              }
+            }
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            
+            // Stop fidget animations on header elements
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'false';
+                
+                // Get current animation to determine direction
+                const currentAnimation = logo.style.animation;
+                let stopAnimation = 'spinToStopClockwise 1.5s ease-out forwards';
+                
+                if (currentAnimation.includes('CounterClockwise')) {
+                  stopAnimation = 'spinToStopCounterClockwise 1.5s ease-out forwards';
+                }
+                
+                // Set current rotation for smooth continuation
+                const computedStyle = window.getComputedStyle(logo);
+                const matrix = computedStyle.transform;
+                if (matrix && matrix !== 'none') {
+                  const values = matrix.split('(')[1].split(')')[0].split(',');
+                  const angle = Math.atan2(values[1], values[0]) * (180 / Math.PI);
+                  logo.style.setProperty('--current-rotation', `${angle}deg`);
+                }
+                
+                logo.style.animation = stopAnimation;
+                h1.style.animation = 'textZoom 1.2s ease-out forwards';
+              }
+            }
+          }}
+          onTouchCancel={(e) => {
+            e.preventDefault();
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            
+            // Stop fidget animations immediately
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.dataset.spinning = 'false';
+                logo.style.animation = 'none';
+                h1.style.animation = 'none';
+              }
+            }
+          }}
+          onClick={(e) => {
+            const divider = e.currentTarget;
+            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
+            divider.style.transform = 'scaleY(2)';
+            
+            // Trigger fidget animations for 3 seconds
+            const header = document.querySelector('header');
+            if (header) {
+              const logo = header.querySelector('div[class*="w-28"]');
+              const h1 = header.querySelector('h1');
+              
+              if (logo && h1) {
+                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
+                h1.style.animation = 'textZoom 2s ease-in-out infinite';
+                
+                // Stop after 3 seconds
+                setTimeout(() => {
+                  divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+                  divider.style.transform = 'scaleY(1)';
+                  logo.style.animation = 'none';
+                  h1.style.animation = 'none';
+                }, 3000);
+              }
+            }
+          }}
+        />
         
         {/* View Toggle */}
         <div 
@@ -1132,7 +1643,9 @@ END:VCALENDAR`;
           }}
         >
           {viewMode === 'provider' ? (
-            Object.entries(byProvider).map(([provider, providerResources]) => {
+            Object.entries(byProvider)
+              .sort(([a], [b]) => a.localeCompare(b)) // Sort H2 headings alphabetically
+              .map(([provider, providerResources]) => {
               const sectionId = `provider-${provider}`;
               const isCollapsed = collapsedSections.has(sectionId);
               
@@ -1184,7 +1697,9 @@ END:VCALENDAR`;
               );
             })
           ) : (
-            Object.entries(byType).map(([type, typeResources]) => {
+            Object.entries(byType)
+              .sort(([a], [b]) => a.localeCompare(b)) // Sort H2 headings alphabetically
+              .map(([type, typeResources]) => {
               const sectionId = `type-${type}`;
               const isCollapsed = collapsedSections.has(sectionId);
               

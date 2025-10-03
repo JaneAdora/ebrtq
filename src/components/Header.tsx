@@ -1,8 +1,12 @@
+import { Heart, Calendar } from 'lucide-react';
+
 interface HeaderProps {
   siteSettings?: {
     h1?: string;
     tagline?: string;
   };
+  currentPage?: 'resources' | 'events';
+  onPageChange?: (page: 'resources' | 'events') => void;
 }
 
 // Animation keyframes
@@ -152,7 +156,7 @@ const logoAnimation = `
   }
 `;
 
-export function Header({ siteSettings }: HeaderProps) {
+export function Header({ siteSettings, currentPage = 'resources', onPageChange }: HeaderProps) {
   return (
     <>
       <style>{logoAnimation}</style>
@@ -574,6 +578,110 @@ export function Header({ siteSettings }: HeaderProps) {
         >
           {siteSettings?.tagline || '→ Connecting Our Community to Resources ←'}
         </p>
+
+        {/* Page Toggle Buttons */}
+        {onPageChange && (
+          <div 
+            className="flex justify-center gap-2"
+            style={{
+              animation: 'taglineFadeIn 1s ease-out 1.2s both',
+              marginTop: '24px'
+            }}
+          >
+            <button
+              onClick={() => onPageChange('resources')}
+              className="px-6 py-3 text-sm font-bold transition-all duration-300 ease-in-out border-2"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: '0.1em',
+                borderColor: currentPage === 'resources' ? '#00FF88' : '#B8A8A8',
+                backgroundColor: currentPage === 'resources' ? '#1A1D2A' : 'transparent',
+                color: currentPage === 'resources' ? '#FFFFFF' : '#B8A8A8',
+                borderRadius: '6px',
+                cursor: currentPage === 'resources' ? 'default' : 'pointer',
+                boxShadow: currentPage === 'resources' 
+                  ? '0 0 15px rgba(0, 255, 136, 0.4), inset 0 0 15px rgba(0, 255, 136, 0.1)'
+                  : '0 0 8px rgba(184, 168, 168, 0.15)',
+                textShadow: currentPage === 'resources' 
+                  ? '0 0 10px rgba(0, 255, 136, 0.8)'
+                  : '0 0 3px rgba(184, 168, 168, 0.4)'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== 'resources') {
+                  e.currentTarget.style.borderColor = '#00FF88';
+                  e.currentTarget.style.boxShadow = '0 0 15px rgba(0, 255, 136, 0.4)';
+                  e.currentTarget.style.color = '#FFFFFF';
+                  e.currentTarget.style.textShadow = '0 0 10px rgba(0, 255, 136, 0.8)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (currentPage !== 'resources') {
+                  e.currentTarget.style.borderColor = '#B8A8A8';
+                  e.currentTarget.style.boxShadow = '0 0 8px rgba(184, 168, 168, 0.15)';
+                  e.currentTarget.style.color = '#B8A8A8';
+                  e.currentTarget.style.textShadow = '0 0 3px rgba(184, 168, 168, 0.4)';
+                }
+              }}
+            >
+              <Heart 
+                size={14} 
+                style={{ 
+                  display: 'inline-block', 
+                  marginRight: '8px',
+                  imageRendering: 'pixelated',
+                  filter: 'contrast(2) saturate(0) brightness(0) invert(1)'
+                }} 
+              />
+              RESOURCES
+            </button>
+            <button
+              onClick={() => onPageChange('events')}
+              className="px-6 py-3 text-sm font-bold transition-all duration-300 ease-in-out border-2"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: '0.1em',
+                borderColor: currentPage === 'events' ? '#00FF88' : '#B8A8A8',
+                backgroundColor: currentPage === 'events' ? '#1A1D2A' : 'transparent',
+                color: currentPage === 'events' ? '#FFFFFF' : '#B8A8A8',
+                borderRadius: '6px',
+                cursor: currentPage === 'events' ? 'default' : 'pointer',
+                boxShadow: currentPage === 'events' 
+                  ? '0 0 15px rgba(0, 255, 136, 0.4), inset 0 0 15px rgba(0, 255, 136, 0.1)'
+                  : '0 0 8px rgba(184, 168, 168, 0.15)',
+                textShadow: currentPage === 'events' 
+                  ? '0 0 10px rgba(0, 255, 136, 0.8)'
+                  : '0 0 3px rgba(184, 168, 168, 0.4)'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== 'events') {
+                  e.currentTarget.style.borderColor = '#00FF88';
+                  e.currentTarget.style.boxShadow = '0 0 15px rgba(0, 255, 136, 0.4)';
+                  e.currentTarget.style.color = '#FFFFFF';
+                  e.currentTarget.style.textShadow = '0 0 10px rgba(0, 255, 136, 0.8)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (currentPage !== 'events') {
+                  e.currentTarget.style.borderColor = '#B8A8A8';
+                  e.currentTarget.style.boxShadow = '0 0 8px rgba(184, 168, 168, 0.15)';
+                  e.currentTarget.style.color = '#B8A8A8';
+                  e.currentTarget.style.textShadow = '0 0 3px rgba(184, 168, 168, 0.4)';
+                }
+              }}
+            >
+              <Calendar 
+                size={14} 
+                style={{ 
+                  display: 'inline-block', 
+                  marginRight: '8px',
+                  imageRendering: 'pixelated',
+                  filter: 'contrast(2) saturate(0) brightness(0) invert(1)'
+                }} 
+              />
+              EVENTS
+            </button>
+          </div>
+        )}
       </div>
     </header>
     </>
