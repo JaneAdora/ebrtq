@@ -54,7 +54,7 @@
       },
       "scripts": {
           "dev": "vite",
-          "build": "vite build && cp admin.html build/admin.html && mkdir -p build/src/data && cp src/data/resources.json build/src/data/",
+      "build": "vite build && cp admin.html build/admin.html && mkdir -p build/src/data && cp src/data/resources.json build/src/data/ && cp src/data/events.json build/src/data/",
           "preview": "vite preview",
           "deploy": "vercel --prod",
           "deploy:preview": "vercel"
