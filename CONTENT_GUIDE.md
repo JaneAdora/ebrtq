@@ -280,5 +280,5 @@ vercel --prod
 
 **Your EBRTQ resource site is now fully manageable!** 🏳️‍⚧️✨
 
-**Last Updated:** January 2025
-**Version:** 2.0 (with accordion functionality and enhanced UX)
+**Last Updated:** October 2, 2025
+**Version:** 3.0 (with enhanced animations, security improvements, and comprehensive updates)
