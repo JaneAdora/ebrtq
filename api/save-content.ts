@@ -8,7 +8,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { resources, siteSettings, customTypes, password } = req.body;
 
   // Simple password check
-  if (password !== 'ebrtq2025') {
+  if (password !== 'VCL0cbQLFmGLcK7Wfo0I') {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 

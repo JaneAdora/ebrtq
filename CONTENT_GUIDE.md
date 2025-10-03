@@ -4,7 +4,7 @@
 
 ### **✅ Current Admin Interface**
 **URL:** `https://ebrtq.com/admin.html`
-**Password:** `ebrtq2025`
+**Security:** Admin access is password protected
 
 The admin interface is fully functional with:
 - ✅ **Real-time editing** with live preview
@@ -17,7 +17,7 @@ The admin interface is fully functional with:
 
 ### **Method 1: Admin Interface (Recommended)**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Find the resource** you want to edit
 4. **Click on any field** to edit it:
    - `title`: Resource name
@@ -40,7 +40,7 @@ The admin interface is fully functional with:
 
 ### **Admin Interface Method**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Click "Add Resource"** button
 4. **Fill in all fields:**
    - **Title**: Resource name (required)
@@ -84,7 +84,7 @@ Add a new object to the `resources` array in `src/data/resources.json`:
 
 ### **Admin Interface Method**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Find the resource** to delete
 4. **Click "Delete" button**
 5. **Confirm deletion**
@@ -108,7 +108,7 @@ Add a new object to the `resources` array in `src/data/resources.json`:
 
 ### **How to Edit**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Click "Site Settings"** accordion
 4. **Edit any field**:
    - Page Title: "EBRTQ - East Baton Rouge Trans & Queer Resources"
@@ -213,7 +213,7 @@ vercel --prod
 - ✅ Verify internet connection
 
 #### **"Changes not saving"**
-- ✅ Check password is correct: `ebrtq2025`
+- ✅ Check password is correct
 - ✅ Verify internet connection
 - ✅ Check browser console for error messages
 - ✅ Try again in a few minutes

@@ -38,7 +38,7 @@ export function AdminEditor() {
   const [showPreview, setShowPreview] = useState(false);
 
   // Simple password protection
-  const ADMIN_PASSWORD = "ebrtq2025"; // Change this!
+  const ADMIN_PASSWORD = "VCL0cbQLFmGLcK7Wfo0I";
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {

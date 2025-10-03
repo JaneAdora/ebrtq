@@ -40,7 +40,7 @@
 - **Custom domain** with SSL (ebrtq.com)
 
 ### **Content Management**
-- **Admin Interface**: `/admin.html` (password: `ebrtq2025`)
+- **Admin Interface**: `/admin.html` (password protected)
 - **Content Storage**: `src/data/resources.json`
 - **Auto-deployment**: GitHub → Vercel
 - **Real-time editing**: Live preview with GitHub sync
@@ -90,7 +90,7 @@ EBRTQ/
 
 ### **Current Status: FULLY FUNCTIONAL** ✅
 - **URL**: `https://ebrtq.com/admin.html`
-- **Password**: `ebrtq2025`
+- **Security**: Password protected access
 - **Features**: Real-time editing, live preview, GitHub sync
 - **Operations**: Create, Read, Update, Delete resources
 - **Settings**: Site title, tagline, meta description management
@@ -209,7 +209,7 @@ EBRTQ/
 - **PROJECT_STATUS.md**: This status document
 
 ### **Troubleshooting**
-- **Admin issues**: Check password and network connection
+- **Admin issues**: Check authentication and network connection
 - **Deployment issues**: Check Vercel dashboard for build logs
 - **Content issues**: Verify JSON syntax and required fields
 - **Performance issues**: Check Vercel analytics and build optimization

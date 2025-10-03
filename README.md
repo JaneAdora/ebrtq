@@ -116,7 +116,7 @@ npm run preview
 ```
 
 ### **Content Management**
-- **Admin Interface**: `/admin.html` (password: `ebrtq2025`)
+- **Admin Interface**: `/admin.html` (password protected)
 - **Direct GitHub**: Edit `src/data/resources.json`
 - **Auto-deployment**: Changes deploy automatically via Vercel
 
@@ -145,7 +145,7 @@ npm run deploy:preview
 
 ### **Adding Resources**
 1. Go to `/admin.html`
-2. Login with password: `ebrtq2025`
+2. Login with admin password
 3. Add new resource in the interface
 4. Save changes (auto-commits to GitHub)
 5. Site updates automatically in 1-2 minutes
@@ -172,7 +172,7 @@ npm run deploy:preview
 ## 🐛 **Troubleshooting**
 
 ### **Common Issues**
-- **Admin not loading**: Check password and network connection
+- **Admin not loading**: Check authentication and network connection
 - **Changes not saving**: Verify GitHub token is set
 - **Build failures**: Check JSON syntax in resources.json
 - **Deployment issues**: Check Vercel dashboard for logs

@@ -6,7 +6,7 @@
 **URL:** `https://ebrtq.com/admin.html`
 - ✅ **Fully functional** with GitHub integration
 - ✅ **Real-time editing** with live preview
-- ✅ **Password protected** (current: `ebrtq2025`)
+- ✅ **Password protected** (secure authentication)
 - ✅ **Auto-deployment** to live site
 - ✅ **Resource CRUD operations** (Create, Read, Update, Delete)
 - ✅ **Site settings management** (title, tagline, meta description)
@@ -22,8 +22,7 @@
 
 ## 🔐 **Authentication**
 
-**Current Password:** `ebrtq2025`
-**⚠️ Security Note:** Change this password in production!
+**Security:** Admin access is password protected for security.
 
 ## 📋 **Resource Management**
 
@@ -55,7 +54,7 @@ Each resource has these editable fields:
 
 ### **Method 1: Admin Interface (Recommended)**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Click "Add Resource"** button
 4. **Fill in all required fields:**
    - Title (required)
@@ -90,7 +89,7 @@ Each resource has these editable fields:
 
 ### **Admin Interface Method**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Find the resource** you want to edit
 4. **Click on any field** to edit it
 5. **Make your changes**
@@ -108,7 +107,7 @@ Each resource has these editable fields:
 
 ### **Admin Interface Method**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Find the resource** to delete
 4. **Click "Delete" button**
 5. **Confirm deletion**
@@ -125,7 +124,7 @@ Each resource has these editable fields:
 
 ### **How to Edit Site Settings**
 1. **Go to** `https://ebrtq.com/admin.html`
-2. **Login** with password: `ebrtq2025`
+2. **Login** with admin password
 3. **Click "Site Settings"** accordion
 4. **Edit any field**:
    - Page Title: "EBRTQ - East Baton Rouge Trans & Queer Resources"
@@ -203,7 +202,7 @@ vercel --prod
 - ✅ Verify internet connection
 
 #### **"Changes not saving"**
-- ✅ Check password is correct: `ebrtq2025`
+- ✅ Check password is correct
 - ✅ Verify internet connection
 - ✅ Check browser console for error messages
 - ✅ Try again in a few minutes
