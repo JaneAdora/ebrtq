@@ -38,6 +38,11 @@ npm run build
 - ✅ **Responsive design** for all screen sizes
 - ✅ **Resource suggestion system** with animated contact link
 - ✅ **Modern cyberpunk aesthetic** with neon colors and pixelated fonts
+- ✅ **Page navigation system** with Resources/Events toggle
+- ✅ **Events page functionality** with calendar events and expandable descriptions
+- ✅ **Interactive glowing divider line** easter egg with fidget animation triggers
+- ✅ **Calendar integration** with Google Calendar and iCal links
+- ✅ **Enhanced resource organization** with alphabetical sorting and expandable descriptions
 
 ### **🔧 Admin Interface**
 - ✅ **Password-protected admin panel** (`/admin.html`)
@@ -49,6 +54,12 @@ npm run build
 - ✅ **Security improvements** with removed password references from documentation
 
 ### **🚀 Recent Updates (January 2025)**
+- ✅ **Interactive glowing divider line easter egg** between page toggle and view mode buttons
+- ✅ **Page navigation system** with toggle between Resources and Events pages
+- ✅ **Events page functionality** with calendar events, expandable descriptions, and calendar links
+- ✅ **Enhanced resource organization** with alphabetical sorting and expandable descriptions
+- ✅ **Calendar integration** with Google Calendar and iCal links for events
+- ✅ **Improved visual hierarchy** with glowing divider line and better spacing
 - ✅ **Enhanced touchscreen functionality** for fidget spinner interactions
 - ✅ **Improved heart emoji colors** in footer for better visual consistency
 - ✅ **Comprehensive fidget spinner functionality documentation**
@@ -83,6 +94,37 @@ The EBRTQ logo features an interactive fidget spinner with advanced animations:
 - **Touch Support**: Full mobile and tablet compatibility
 - **Enhanced Clickable Area**: 48px larger than visual logo for easier interaction
 - **Synchronized Text**: H1 text zooms in harmony with logo spinning
+
+## ✨ **New Interactive Features**
+
+### **🎯 Page Navigation System**
+- **Dual Page Toggle**: Switch between Resources and Events pages
+- **Visual Indicators**: Active page highlighted with cyberpunk green glow
+- **Smooth Transitions**: Seamless navigation with state management
+- **URL Routing**: Browser history support with proper URL updates
+
+### **📅 Events Page**
+- **Calendar Events**: Display upcoming LGBTQ+ community events
+- **Dual View Modes**: Organize by Month or by Organization
+- **Expandable Descriptions**: Click to expand event details with "Read more" functionality
+- **Calendar Integration**: Add events to Google Calendar or download iCal files
+- **External Links**: Clickable date, title, time, and location for event details
+- **Alphabetical Organization**: H2 headings sorted alphabetically for easy navigation
+- **Chronological Sorting**: Events sorted by date within each section
+
+### **🎨 Interactive Glowing Divider Line**
+- **Hidden Easter Egg**: Glowing divider line between page toggle and view mode buttons
+- **Fidget Animation Trigger**: Hover, click, or touch to activate logo spinning
+- **Visual Feedback**: Line thickens and glows brighter during interaction
+- **Direction Control**: Mouse/touch position determines logo spin direction
+- **Smooth Transitions**: Same elegant spin-to-stop animation as main logo
+- **Multi-Platform Support**: Works with mouse, touch, click, and hold interactions
+
+### **📚 Enhanced Resources**
+- **Expandable Descriptions**: Click to read full resource descriptions
+- **Alphabetical Sorting**: Both H2 headings and content sorted alphabetically
+- **Improved Organization**: Better visual hierarchy and spacing
+- **Consistent Styling**: Unified design language across all pages
 
 ## 🏗️ **Architecture**
 
@@ -127,6 +169,13 @@ api/
 - [x] Site settings management
 - [x] External link handling (same window)
 - [x] Mobile optimization
+- [x] Page navigation system (Resources/Events toggle)
+- [x] Events page with calendar functionality
+- [x] Interactive glowing divider line easter egg
+- [x] Expandable resource descriptions
+- [x] Calendar integration (Google Calendar + iCal)
+- [x] Alphabetical and chronological sorting
+- [x] Enhanced visual hierarchy and spacing
 
 ### **🔄 In Progress**
 - [ ] Logo image integration (pending user assets)
