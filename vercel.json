@@ -12,6 +12,10 @@
       "destination": "/src/data/resources.json"
     },
     {
+      "source": "/src/data/events.json",
+      "destination": "/src/data/events.json"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
