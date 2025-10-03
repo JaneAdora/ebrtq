@@ -21,6 +21,10 @@ npm run build
 ## 📋 **Current Features**
 
 ### **🎯 Main Site Features**
+- ✅ **Interactive fidget spinner logo** with 3D ring effects and smooth animations
+- ✅ **Enhanced clickable area** (48px larger) for easier interaction
+- ✅ **Directional spin control** - mouse/touch position determines spin direction
+- ✅ **Text zoom animation** synchronized with logo spinning
 - ✅ **Enhanced loading animations** with 3D ring effects for fidget spinner
 - ✅ **Improved visual design** with better envelope icon and slick animations
 - ✅ **Favicon and featured image assets** for better branding
@@ -45,12 +49,33 @@ npm run build
 - ✅ **Security improvements** with removed password references from documentation
 
 ### **🎨 UI/UX Features**
+- ✅ **Interactive fidget spinner logo** with 3D ring effects
+- ✅ **Directional spin control** - mouse/touch position determines spin direction
+- ✅ **Text zoom animation** synchronized with logo spinning
+- ✅ **Enhanced clickable area** (48px larger) for easier interaction
 - ✅ **Smooth animations** and transitions
 - ✅ **Hover effects** on interactive elements
 - ✅ **Color-coded resource categories**
 - ✅ **Icon-based visual organization**
 - ✅ **Mobile-responsive design**
 - ✅ **Accessibility considerations**
+
+## 🎮 **Interactive Fidget Spinner Logo**
+
+The EBRTQ logo features an interactive fidget spinner with advanced animations:
+
+### **How to Use:**
+- **Hover/Touch**: Move your mouse or finger over the logo to start spinning
+- **Direction Control**: Move left/right to change spin direction
+- **Click/Tap**: Click or tap for a 3-second continuous spin
+- **Text Animation**: The "EBRTQ" text zooms in sync with the logo
+
+### **Technical Features:**
+- **3D Ring Effects**: Multiple concentric rings with different colors
+- **Smooth Animations**: 2-second spin cycles with directional control
+- **Touch Support**: Full mobile and tablet compatibility
+- **Enhanced Clickable Area**: 48px larger than visual logo for easier interaction
+- **Synchronized Text**: H1 text zooms in harmony with logo spinning
 
 ## 🏗️ **Architecture**
 
