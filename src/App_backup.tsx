@@ -150,12 +150,7 @@ export default function App() {
 
   // Generate calendar links
   const generateGoogleCalendarLink = (event: any) => {
-    console.log('🔍 DEBUG: Generating Google Calendar link for:', event.title);
-    console.log('📅 Original Event Data:', {
-      date: event.date,
-      time: event.time
-    });
-    
+    console.log('Generating Google Calendar link for:', event);
     try {
       // Parse time format like "6:00 PM - 8:00 PM"
       const timeParts = event.time.split(' - ');
@@ -170,57 +165,35 @@ export default function App() {
       const startTime24h = convertTo24Hour(startTime12h);
       const endTime24h = convertTo24Hour(endTime12h);
       
-      console.log('🕐 24-Hour Format:', {
-        startTime24h,
-        endTime24h
-      });
-      
       // Parse date components
       const [year, month, day] = event.date.split('-');
       
-      console.log('📆 Date Components:', {
-        year,
-        month,
-        day,
-        originalDate: event.date
-      });
-      
-      // Format dates for Google Calendar - use local time with ctz parameter
-      const formatDateForGoogle = (time24h: string, timeLabel: string) => {
+      // Create proper UTC timestamps by adding 6 hours to Central time
+      const formatDateForGoogle = (time24h: string) => {
         const [hours, minutes] = time24h.split(':');
-        const result = `${year}${month}${day}T${hours}${minutes}00`;
+        let utcHours = parseInt(hours) + 6; // Add 6 hours for Central to UTC
+        let utcDay = parseInt(day);
         
-        console.log(`✅ ${timeLabel} Final Result (Local Time):`, result);
+        // Handle day overflow
+        if (utcHours >= 24) {
+          utcHours -= 24;
+          utcDay += 1;
+        }
         
-        return result;
+        return `${year}${month}${String(utcDay).padStart(2, '0')}T${String(utcHours).padStart(2, '0')}${minutes}00Z`;
       };
-      
-      const startDateFormatted = formatDateForGoogle(startTime24h, 'START');
-      const endDateFormatted = formatDateForGoogle(endTime24h, 'END');
-      
-      console.log('📋 Final Formatted Dates (Local Time):', {
-        startDateFormatted,
-        endDateFormatted
-      });
-      
-      const datesParam = `${startDateFormatted}/${endDateFormatted}`;
-      console.log('🔗 Dates Parameter:', datesParam);
       
       const params = new URLSearchParams({
         action: 'TEMPLATE',
         text: event.title,
-        dates: datesParam,
+        dates: `${formatDateForGoogle(startTime24h)}/${formatDateForGoogle(endTime24h)}`,
         details: event.description || '',
-        location: event.location,
-        ctz: 'America/Chicago' // Tell Google Calendar this is Central time
+        location: event.location
       });
       
-      const finalUrl = `https://calendar.google.com/calendar/render?${params}`;
-      console.log('🌐 Final Google Calendar URL:', finalUrl);
-      
-      return finalUrl;
+      return `https://calendar.google.com/calendar/render?${params}`;
     } catch (error) {
-      console.error('❌ Error generating Google Calendar link:', error);
+      console.error('Error generating Google Calendar link:', error);
       return '#';
     }
   };
@@ -311,19 +284,53 @@ END:VCALENDAR`;
   // Check if we're in admin mode via URL hash
   const isAdminMode = window.location.hash === '#admin' || showAdmin;
   
-  // Events data
+  // Sample events data - this could be loaded from a separate JSON file later
   const events = [
     {
       id: "1",
-      title: "QUUeer Fête Music Festival 2025",
-      date: "2025-10-04",
-      time: "4:30 PM - 8:30 PM",
-      location: "Unitarian Church of Baton Rouge",
-      description: "Join us at the Unitarian Church of Baton Rouge for the 2nd Annual QUUeer Fête Music Festival celebrating queer advocacy, liberation, and social justice. We are amplifying queer voices and fostering allyship for the entire community. Enjoy music, food, and community with us. Come one, come ALL to QUUeer Fête 2025! Featuring Crys Matthews, Gais Do Do Band, drag entertainment, spoken word, and the Queer-ish Choir.",
-      type: "Arts & Culture",
-      organization: "Unitarian Church of Baton Rouge",
-      color: "magenta",
-      url: "https://www.eventbrite.com/e/quueer-fete-music-festival-2025-tickets-1444319551659"
+      title: "Community Gathering",
+      date: "2025-10-14",
+      time: "6:00 PM - 8:00 PM",
+      location: "EBRTQ Community Center",
+      description: "Monthly community gathering for support and connection. This event brings together members of the LGBTQ+ community for networking, resource sharing, and mutual support. We'll have refreshments, activities, and opportunities to connect with local organizations and service providers.",
+      type: "Community",
+      organization: "EBRTQ",
+      color: "pink",
+      url: "https://www.ebrtq.com/community-gathering"
+    },
+    {
+      id: "2", 
+      title: "Workshop: Health Resources",
+      date: "2025-11-02",
+      time: "2:00 PM - 4:00 PM",
+      location: "Online",
+      type: "Educational",
+      organization: "Louisiana Trans Advocates",
+      color: "cyan",
+      url: "https://www.latransadvocates.org/health-workshop"
+    },
+    {
+      id: "3",
+      title: "Support Group Meeting",
+      date: "2025-10-21",
+      time: "7:00 PM - 9:00 PM",
+      location: "Community Center",
+      description: "Weekly support group for trans and queer individuals. This safe space provides peer support, discussion of current events affecting our community, and sharing of personal experiences. All identities and experiences are welcome. Confidentiality is maintained, and refreshments are provided.",
+      type: "Support",
+      organization: "Louisiana Trans Advocates",
+      color: "purple",
+      url: "https://www.latransadvocates.org/support-group"
+    },
+    {
+      id: "4",
+      title: "Pride Planning Committee",
+      date: "2025-11-15",
+      time: "6:30 PM - 8:30 PM",
+      location: "EBRTQ Office",
+      type: "Planning",
+      organization: "EBRTQ",
+      color: "green",
+      url: "https://www.ebrtq.com/pride-planning"
     }
   ];
   
@@ -347,9 +354,8 @@ END:VCALENDAR`;
   
   // Group events by month
   const eventsByMonth = events.reduce((acc, event) => {
-    // Parse date string directly to avoid timezone issues
-    const [year, month] = event.date.split('-');
-    const monthKey = `${new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString('en-US', { month: 'short' })} ${year}`;
+    const date = new Date(event.date);
+    const monthKey = `${date.toLocaleDateString('en-US', { month: 'short' })} ${date.getFullYear()}`;
     if (!acc[monthKey]) {
       acc[monthKey] = [];
     }
@@ -520,9 +526,9 @@ END:VCALENDAR`;
                     {!isCollapsed && (
                       <div className="space-y-3 mt-3">
                         {monthEvents.map((event) => {
-                          // Parse date string directly to avoid timezone issues
-                          const [year, month, day] = event.date.split('-');
-                          const monthAbbr = new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                          const date = new Date(event.date);
+                          const day = date.getDate();
+                          const monthAbbr = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
                           
                           return (
                             <div 
@@ -650,7 +656,7 @@ END:VCALENDAR`;
                                   </div>
                                   
                                   {/* Calendar Links - always show */}
-                                  <div className="flex justify-start" style={{ gap: '24px', marginTop: '12px' }}>
+                                  <div className="flex justify-start gap-3 mt-3">
                                     <a
                                       href={generateGoogleCalendarLink(event)}
                                       target="_blank"
@@ -727,9 +733,9 @@ END:VCALENDAR`;
                     {!isCollapsed && (
                       <div className="space-y-3 mt-3">
                         {orgEvents.map((event) => {
-                          // Parse date string directly to avoid timezone issues
-                          const [year, month, day] = event.date.split('-');
-                          const monthAbbr = new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+                          const date = new Date(event.date);
+                          const day = date.getDate();
+                          const monthAbbr = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
                           
                           return (
                             <div 
@@ -857,7 +863,7 @@ END:VCALENDAR`;
                                   </div>
                                   
                                   {/* Calendar Links - always show */}
-                                  <div className="flex justify-start" style={{ gap: '24px', marginTop: '12px' }}>
+                                  <div className="flex justify-start gap-3 mt-3">
                                     <a
                                       href={generateGoogleCalendarLink(event)}
                                       target="_blank"
@@ -899,78 +905,6 @@ END:VCALENDAR`;
                 );
               })
             )}
-          </div>
-          
-          {/* Event Suggestion Button */}
-          <div 
-            className="text-center mb-8 mt-12 px-4"
-            style={{
-              animation: 'pageContentFadeIn 1.5s ease-out 1.2s both'
-            }}
-          >
-            <a 
-              href="mailto:jane@repcap.com,cassiegresham97@gmail.com?subject=Event Suggestion for EBRTQ&body=Hi! I know of an event that should be added to EBRTQ..."
-              className="inline-block transition-all duration-300 ease-in-out hover:scale-105 text-xs sm:text-sm relative spark-container"
-              style={{
-                fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace",
-                color: '#5BCEFA',
-                textDecoration: 'underline',
-                fontWeight: '500',
-                lineHeight: '1.4',
-                whiteSpace: 'normal',
-                wordWrap: 'break-word',
-                textAlign: 'center',
-                textUnderlineOffset: '4px',
-                textDecorationThickness: '2px',
-                background: 'linear-gradient(45deg, #5BCEFA, #F5A9B8, #BB86FC, #5BCEFA)',
-                backgroundSize: '300% 300%',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                animation: 'gradientShift 3s ease-in-out infinite',
-                textShadow: '0 0 10px rgba(91, 206, 250, 0.5)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.animation = 'gradientShift 0.8s ease-in-out infinite, glowPulse 0.6s ease-in-out infinite';
-                e.currentTarget.style.textDecorationThickness = '3px';
-                e.currentTarget.style.textShadow = '0 0 20px rgba(245, 169, 184, 0.8), 0 0 30px rgba(187, 134, 252, 0.6)';
-                e.currentTarget.style.transform = 'scale(1.05)';
-                
-                // Update icon color and glow on hover
-                const mailIcon = e.currentTarget.querySelector('svg');
-                if (mailIcon) {
-                  mailIcon.style.color = '#F5A9B8';
-                  mailIcon.style.filter = 'drop-shadow(0 0 8px rgba(245, 169, 184, 0.8))';
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.animation = 'gradientShift 3s ease-in-out infinite';
-                e.currentTarget.style.textDecorationThickness = '2px';
-                e.currentTarget.style.textShadow = '0 0 10px rgba(91, 206, 250, 0.5)';
-                e.currentTarget.style.transform = 'scale(1)';
-                
-                // Reset icon color and glow
-                const mailIcon = e.currentTarget.querySelector('svg');
-                if (mailIcon) {
-                  mailIcon.style.color = '#5BCEFA';
-                  mailIcon.style.filter = 'drop-shadow(0 0 3px rgba(91, 206, 250, 0.5))';
-                }
-              }}
-            >
-              Know an event we should add?<br />
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', lineHeight: '1.2' }}>
-                <Mail 
-                  size={14} 
-                  style={{ 
-                    display: 'inline-block',
-                    color: '#5BCEFA',
-                    filter: 'drop-shadow(0 0 3px rgba(91, 206, 250, 0.5))',
-                    transition: 'color 0.3s ease, filter 0.3s ease'
-                  }} 
-                />
-                Message us!
-              </span>
-            </a>
           </div>
           
           <div

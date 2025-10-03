@@ -842,6 +842,7 @@
                         <p style="color: #333 !important;"><strong style="color: #5BCEFA !important;">Type:</strong> ${resource.type}</p>
                         <p style="color: #333 !important;"><strong style="color: #5BCEFA !important;">URL:</strong> <a href="${resource.url}" style="color: #007bff !important;">${resource.url}</a></p>
                         <p style="color: #333 !important;"><strong style="color: #5BCEFA !important;">Icon:</strong> ${resource.icon} | <strong style="color: #5BCEFA !important;">Color:</strong> ${resource.color}</p>
+                        ${resource.description ? `<p style="color: #333 !important;"><strong style="color: #5BCEFA !important;">Description:</strong> ${resource.description}</p>` : ''}
                     </div>
                 `).join('');
             } else {
@@ -892,6 +893,14 @@
                                     <option value="cyan" ${resource.color === 'cyan' ? 'selected' : ''}>Cyan</option>
                                     <option value="green" ${resource.color === 'green' ? 'selected' : ''}>Green</option>
                                 </select>
+                            </div>
+                            <div style="grid-column: 1 / -1;">
+                                <label>Description:</label>
+                                <textarea 
+                                    style="width: 100%; min-height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;"
+                                    placeholder="Optional description for the resource (will show as expandable text on the main site)"
+                                    onchange="updateResource(${resource.id}, 'description', this.value)"
+                                >${resource.description || ''}</textarea>
                             </div>
                         </div>
                         <div style="text-align: right; margin-top: 10px;">

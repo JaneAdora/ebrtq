@@ -2,39 +2,233 @@
   "resources": [
     {
       "id": "1",
+      "title": "Open Health Care Clinic & HAART Clinic",
+      "url": "https://www.ohcc.org/haart-clinic",
+      "provider": "Open Health Care Clinic",
+      "type": "Healthcare",
+      "icon": "Activity",
+      "color": "cyan",
+      "description": "Federally Qualified Health Center providing comprehensive LGBTQ-affirming healthcare including hormone replacement therapy, primary care, and HIV/AIDS services. HAART Clinic offers free testing, PrEP, and comprehensive HIV treatment."
+    },
+    {
+      "id": "2",
+      "title": "Access Health Louisiana",
+      "url": "https://accesshealthla.org/service/lqbtq-health-care/",
+      "provider": "Access Health Louisiana",
+      "type": "Healthcare",
+      "icon": "Activity",
+      "color": "blue",
+      "description": "Louisiana's largest community health center network providing LGBTQ+-affirming healthcare with transgender healthcare, behavioral health, HIV/STI services, and youth programs. Serves Baton Rouge with multiple locations across the state."
+    },
+    {
+      "id": "3",
+      "title": "Baton Rouge General Medical Center - LGBTQ+ Care",
+      "url": "https://www.brgeneral.org/medical-services/lgbtq-care",
+      "provider": "Baton Rouge General Medical Center",
+      "type": "Healthcare",
+      "icon": "Activity",
+      "color": "white",
+      "description": "Major hospital system with multiple physicians specifically trained in LGBTQ+ care, providing gender-affirming care, HRT, PrEP, and comprehensive medical services in an inclusive environment."
+    },
+    {
+      "id": "4",
+      "title": "Baton Rouge Metro Health (BRBAC)",
+      "url": "https://www.brmetrohealth.com",
+      "provider": "Baton Rouge Metro Health",
+      "type": "Healthcare",
+      "icon": "Activity",
+      "color": "green",
+      "description": "Community organization providing free HIV and STI testing, PrEP services, risk reduction counseling, housing assistance for HIV+ individuals, and youth development programs serving the LGBTQ+ community."
+    },
+    {
+      "id": "5",
+      "title": "The Trevor Project",
+      "url": "https://www.thetrevorproject.org/",
+      "provider": "The Trevor Project",
+      "type": "Crisis Support",
+      "icon": "Phone",
+      "color": "pink",
+      "description": "Nation's leading suicide prevention and crisis intervention organization for LGBTQ+ young people under 25. Provides 24/7/365 free, confidential crisis support."
+    },
+    {
+      "id": "6",
+      "title": "Trans Lifeline",
+      "url": "https://translifeline.org/",
+      "provider": "Trans Lifeline",
+      "type": "Crisis Support",
+      "icon": "Phone",
+      "color": "purple",
+      "description": "Peer support and crisis hotline run by trans people for trans and questioning peers. Staffed entirely by transgender operators."
+    },
+    {
+      "id": "7",
+      "title": "Louisiana Trans Advocates (LTA)",
+      "url": "https://www.latransadvocates.org/",
+      "provider": "Louisiana Trans Advocates",
+      "type": "Community",
+      "icon": "Users",
+      "color": "pink",
+      "description": "Statewide organization run by and for trans people that hosts monthly in-person support groups in Baton Rouge, provides ID document assistance, maintains healthcare directories, and offers advocacy."
+    },
+    {
+      "id": "8",
       "title": "Trans Support Meetings",
       "url": "https://www.latransadvocates.org/meetings",
       "provider": "Louisiana Trans Advocates",
       "type": "Community",
       "icon": "Heart",
-      "color": "pink"
+      "color": "pink",
+      "description": "Join our weekly support meetings for trans and non-binary individuals. These safe spaces provide peer support, discussion of current events affecting our community, and sharing of personal experiences. All identities and experiences are welcome. Confidentiality is maintained, and refreshments are provided."
     },
     {
-      "id": "2",
+      "id": "9",
+      "title": "Baton Rouge Pride",
+      "url": "https://www.batonrougepride.org/",
+      "provider": "Baton Rouge Pride",
+      "type": "Community",
+      "icon": "Users",
+      "color": "magenta",
+      "description": "Volunteer-run nonprofit providing resources, education, and community-building activities for South Louisiana LGBTQ+ community. Hosts Louisiana's largest indoor Pride Festival annually with over 12,500 attendees."
+    },
+    {
+      "id": "10",
+      "title": "Capital City Alliance (CCA)",
+      "url": "http://www.ccabatonrouge.org/",
+      "provider": "Capital City Alliance",
+      "type": "Community",
+      "icon": "Users",
+      "color": "cyan",
+      "description": "All-volunteer community-based nonprofit committed to engaging, promoting, and advocating for Baton Rouge's LGBTQ+ community through education, communication, and advocacy."
+    },
+    {
+      "id": "11",
+      "title": "Out of the Box (OTB) LGBTQ+ Center",
+      "url": "https://www.carpbr.com/out-of-the-box",
+      "provider": "Out of the Box LGBTQ+ Center",
+      "type": "Community",
+      "icon": "Home",
+      "color": "green",
+      "description": "Comprehensive LGBTQ+ center offering employment assistance, professional development, health services, HIV testing, PrEP education, and peer-led support programs. Particularly serves LGBTQ+ people of color."
+    },
+    {
+      "id": "12",
+      "title": "Youth Oasis",
+      "url": "https://www.youthoasis.org/",
+      "provider": "Youth Oasis",
+      "type": "Community",
+      "icon": "Home",
+      "color": "blue",
+      "description": "Drop-in center and emergency shelter serving transition-age youth (13-25) with specialized focus on at-risk LGBTQ+ individuals. Provides emergency shelter, transitional housing, meals, and comprehensive support services."
+    },
+    {
+      "id": "13",
+      "title": "PFLAG Greater Baton Rouge",
+      "url": "https://pflag.org/chapter/pflag-greater-baton-rouge/",
+      "provider": "PFLAG Greater Baton Rouge",
+      "type": "Community",
+      "icon": "Heart",
+      "color": "white",
+      "description": "Local chapter of the nation's largest organization dedicated to supporting, educating, and advocating for LGBTQ+ people and those who love them. Provides support for parents, families, and friends through meetings, education, and advocacy."
+    },
+    {
+      "id": "14",
+      "title": "Rainbow Connection Meetup",
+      "url": "https://www.meetup.com/rainbow-connection/",
+      "provider": "Rainbow Connection Meetup",
+      "type": "Social Groups",
+      "icon": "Users",
+      "color": "magenta",
+      "description": "Safe space meetup group with 545+ members for the LGBTQIA+ community, straight allies, and anyone in between to connect and find solidarity."
+    },
+    {
+      "id": "15",
+      "title": "Mystic Krewe of Apollo - Baton Rouge",
+      "url": "https://apollobatonrouge.com",
+      "provider": "Mystic Krewe of Apollo",
+      "type": "Social Groups",
+      "icon": "Users",
+      "color": "purple",
+      "description": "Founded in 1980, one of the oldest gay Mardi Gras krewes in Louisiana. Nonprofit organization giving gay men a safe space to celebrate Mardi Gras while raising funds for scholarships and the AIDS Crisis Fund."
+    },
+    {
+      "id": "16",
+      "title": "LSU LGBTQ+ Center & Spectrum",
+      "url": "https://www.lsu.edu/engagement/",
+      "provider": "LSU",
+      "type": "Education",
+      "icon": "GraduationCap",
+      "color": "cyan",
+      "description": "LSU LGBTQ+ Center supports all LSU students, faculty, and staff. Spectrum is LSU's primary LGBTQ+ student organization with over 100 active members offering social support, education, programming, and activism."
+    },
+    {
+      "id": "17",
+      "title": "East Baton Rouge Parish Library LGBTQ Resources",
+      "url": "https://ebrpl.libguides.com/LGBTQ",
+      "provider": "East Baton Rouge Parish Library",
+      "type": "Education",
+      "icon": "BookOpen",
+      "color": "blue",
+      "description": "Comprehensive online resource guide featuring LGBTQ+ literature, educational materials, community resources, and information for individuals, families, and allies."
+    },
+    {
+      "id": "18",
+      "title": "Leur Magazine",
+      "url": "https://www.leurmag.com/",
+      "provider": "Leur Magazine",
+      "type": "Arts & Culture",
+      "icon": "BookOpen",
+      "color": "magenta",
+      "description": "Baton Rouge's first LGBTQIA+ arts and culture magazine, founded in 2016. Features essays, short stories, poetry, and photo spreads from Southern LGBTQ+ creatives. Organizes the Queerative Arts Market at Baton Rouge Pride."
+    },
+    {
+      "id": "19",
+      "title": "Metropolitan Community Church of Baton Rouge (MCCBR)",
+      "url": "https://mccbr.org/",
+      "provider": "Metropolitan Community Church",
+      "type": "Religious & Spiritual",
+      "icon": "Heart",
+      "color": "white",
+      "description": "Christian congregation with primary outreach to LGBTQ people, serving the community for over 40 years with message of God's inclusive love."
+    },
+    {
+      "id": "20",
+      "title": "Unitarian Church of Baton Rouge",
+      "url": "https://unitarianbr.org/",
+      "provider": "Unitarian Church of Baton Rouge",
+      "type": "Religious & Spiritual",
+      "icon": "Heart",
+      "color": "green",
+      "description": "Welcoming Congregation officially recognized by the UUA that affirms and includes LGBTQ+ people at every level of congregational life, celebrating diversity and advocating for LGBTQ+ rights."
+    },
+    {
+      "id": "21",
+      "title": "University Presbyterian Church",
+      "url": "https://upcbr.org/",
+      "provider": "University Presbyterian Church",
+      "type": "Religious & Spiritual",
+      "icon": "Heart",
+      "color": "purple",
+      "description": "More Light congregation explicitly welcoming and affirming LGBTQ individuals. Led by vocal advocate for LGBTQ rights, supports marriage equality, and hosts community events promoting inclusion."
+    },
+    {
+      "id": "22",
       "title": "Legislative Toolbox",
       "url": "https://www.latransadvocates.org/advocate",
       "provider": "Louisiana Trans Advocates",
       "type": "Advocacy",
       "icon": "Shield",
-      "color": "purple"
+      "color": "purple",
+      "description": "Resources and tools for legislative advocacy, policy change, and political engagement. Learn how to contact legislators, track bills, and make your voice heard in Louisiana politics."
     },
     {
-      "id": "3",
-      "title": "Join LTA",
-      "url": "https://www.latransadvocates.org/membership",
-      "provider": "Louisiana Trans Advocates",
-      "type": "Community",
-      "icon": "Users",
-      "color": "blue"
-    },
-    {
-      "id": "4",
+      "id": "23",
       "title": "Name Change Info",
       "url": "https://www.latransadvocates.org/id-documents-center",
       "provider": "Louisiana Trans Advocates",
       "type": "Legal Services",
       "icon": "Briefcase",
-      "color": "cyan"
+      "color": "cyan",
+      "description": "Comprehensive guide to changing your name and updating identity documents in Louisiana. Includes step-by-step instructions, required forms, and legal resources for trans and non-binary individuals."
     }
   ],
   "siteSettings": {

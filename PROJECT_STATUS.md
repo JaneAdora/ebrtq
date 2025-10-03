@@ -137,9 +137,16 @@ EBRTQ/
 - **Build process**: `npm run build`
 - **Preview**: `npm run preview`
 
-## 🔄 **Recent Changes (Latest Update - October 2, 2025)**
+## 🔄 **Recent Changes (Latest Update - January 2025)**
 
-### **Version 3.0 Features Added (Today's Updates)**
+### **Version 3.1 Features Added (Recent Updates)**
+- ✅ **Enhanced touchscreen functionality** for fidget spinner interactions
+- ✅ **Improved heart emoji colors** in footer for better visual consistency
+- ✅ **Comprehensive fidget spinner functionality documentation**
+- ✅ **Improved clickable area** with padding approach for better UX
+- ✅ **Enhanced fidget spinner** with 3D ring effects and improved envelope icon
+
+### **Version 3.0 Features (Previous Updates)**
 - ✅ **Interactive fidget spinner logo** with enhanced clickable area (48px larger)
 - ✅ **Directional spin control** - mouse/touch position determines spin direction
 - ✅ **Text zoom animation** synchronized with logo spinning
@@ -265,6 +272,6 @@ EBRTQ/
 
 **EBRTQ is fully functional and ready for community use!** 🏳️‍⚧️✨
 
-**Last Updated:** October 2, 2025  
-**Version:** 3.0 (with enhanced animations, security improvements, and comprehensive updates)  
+**Last Updated:** January 2025  
+**Version:** 3.1 (with enhanced touchscreen functionality and improved user experience)  
 **Status:** Production Ready ✅
