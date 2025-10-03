@@ -30,7 +30,7 @@ export function Footer() {
               wordWrap: 'break-word'
             }}
           >
-            Made with <span style={{ color: '#5BCEFA' }}>💙</span><span style={{ color: '#F5A9B8' }}>💗</span><span style={{ color: '#FFFFFF' }}>🤍</span><br />
+            Made with <span style={{ color: '#87CEEB' }}>💙</span><span style={{ color: '#FFB6C1' }}>💗</span><span style={{ color: '#FFFFFF' }}>🤍</span><br />
             from The Baton Rouge Chapter<br />
             of Louisiana Trans Advocates
           </p>
