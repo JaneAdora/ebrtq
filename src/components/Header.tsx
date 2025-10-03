@@ -347,29 +347,33 @@ export function Header({ siteSettings }: HeaderProps) {
             {siteSettings?.h1 || 'EBRTQ'}
           </h1>
           
-          {/* Circular logo - Fidget Spinner with larger clickable area */}
+          {/* Circular logo - Fidget Spinner */}
           <div 
-            className="w-40 h-40 flex items-center justify-center relative cursor-pointer"
+            className="w-28 h-28 flex items-center justify-center relative cursor-pointer"
             style={{
+              borderRadius: '50%',
+              border: '4px solid #5BCEFA',
+              boxShadow: '0 0 0 4px #F5A9B8, 0 0 0 8px #FFFFFF, 0 0 30px rgba(91, 206, 250, 0.6)',
+              backgroundColor: '#2A2D3A',
               position: 'relative',
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none'
+              animation: 'logoGlow 1.5s ease-out 0s both',
+              transformStyle: 'preserve-3d',
+              transition: 'transform 0.6s ease-out',
+              padding: '24px',
+              margin: '0 -24px'
             }}
             onMouseEnter={(e) => {
-              // Get both elements - target the inner logo
-              const logo = e.currentTarget.querySelector('div[class*="w-28"]');
+              // Get both elements
+              const logo = e.currentTarget;
               const text = e.currentTarget.parentElement?.querySelector('h1');
               
-              if (logo) {
-                // Store initial mouse position for direction tracking
-                logo.dataset.initialX = e.clientX.toString();
-                logo.dataset.spinning = 'true';
-                
-                // Clear any existing transitions and start spinning clockwise
-                logo.style.transition = 'none';
-                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-              }
+              // Store initial mouse position for direction tracking
+              logo.dataset.initialX = e.clientX.toString();
+              logo.dataset.spinning = 'true';
+              
+              // Clear any existing transitions and start spinning clockwise
+              logo.style.transition = 'none';
+              logo.style.animation = 'coinSpinClockwise 2s linear infinite';
               
               if (text) {
                 text.style.transition = 'none';
@@ -377,8 +381,8 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onMouseMove={(e) => {
-              const logo = e.currentTarget.querySelector('div[class*="w-28"]');
-              if (!logo || logo.dataset.spinning !== 'true') return;
+              const logo = e.currentTarget;
+              if (logo.dataset.spinning !== 'true') return;
               
               const currentX = e.clientX;
               const logoRect = logo.getBoundingClientRect();
@@ -428,20 +432,18 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onTouchStart={(e) => {
-              // Get both elements - target the inner logo
-              const logo = e.currentTarget.querySelector('div[class*="w-28"]');
+              // Get both elements
+              const logo = e.currentTarget;
               const text = e.currentTarget.parentElement?.querySelector('h1');
               
-              if (logo) {
-                // Store initial touch position for direction tracking
-                const touch = e.touches[0];
-                logo.dataset.initialX = touch.clientX.toString();
-                logo.dataset.spinning = 'true';
-                
-                // Clear transitions and start spinning clockwise
-                logo.style.transition = 'none';
-                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-              }
+              // Store initial touch position for direction tracking
+              const touch = e.touches[0];
+              logo.dataset.initialX = touch.clientX.toString();
+              logo.dataset.spinning = 'true';
+              
+              // Clear transitions and start spinning clockwise
+              logo.style.transition = 'none';
+              logo.style.animation = 'coinSpinClockwise 2s linear infinite';
               
               if (text) {
                 text.style.transition = 'none';
@@ -449,8 +451,8 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onTouchMove={(e) => {
-              const logo = e.currentTarget.querySelector('div[class*="w-28"]');
-              if (!logo || logo.dataset.spinning !== 'true') return;
+              const logo = e.currentTarget;
+              if (logo.dataset.spinning !== 'true') return;
               
               const touch = e.touches[0];
               const currentX = touch.clientX;
@@ -501,54 +503,35 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onClick={(e) => {
-              // Get both elements - target the inner logo
-              const logo = e.currentTarget.querySelector('div[class*="w-28"]');
+              // Get both elements
+              const logo = e.currentTarget;
               const text = e.currentTarget.parentElement?.querySelector('h1');
               
               // Start spinning and zooming for 3 seconds
-              if (logo) {
-                logo.style.animation = 'coinSpin 2s linear infinite';
-              }
+              logo.style.animation = 'coinSpin 2s linear infinite';
               if (text) {
                 text.style.animation = 'textZoom 2s ease-in-out infinite';
               }
               
               // Stop after 3 seconds
               setTimeout(() => {
-                if (logo) {
-                  logo.style.animation = 'none';
-                }
+                logo.style.animation = 'none';
                 if (text) {
                   text.style.animation = 'none';
                 }
               }, 3000);
             }}
           >
-            {/* Visual logo - same size as before but centered in larger clickable area */}
+            {/* Solid dark center - no gradient */}
             <div 
-              className="w-28 h-28 flex items-center justify-center relative"
+              className="absolute inset-2"
               style={{
                 borderRadius: '50%',
-                border: '4px solid #5BCEFA',
-                boxShadow: '0 0 0 4px #F5A9B8, 0 0 0 8px #FFFFFF, 0 0 30px rgba(91, 206, 250, 0.6)',
-                backgroundColor: '#2A2D3A',
-                position: 'relative',
-                animation: 'logoGlow 1.5s ease-out 0s both',
-                transformStyle: 'preserve-3d',
-                transition: 'transform 0.6s ease-out'
+                backgroundColor: '#1A1D2A',
+                border: '2px solid #2A2D3A',
+                animation: 'ringPulse 1.8s ease-out 0.2s both'
               }}
-            >
-              {/* Solid dark center - no gradient */}
-              <div 
-                className="absolute inset-2"
-                style={{
-                  borderRadius: '50%',
-                  backgroundColor: '#1A1D2A',
-                  border: '2px solid #2A2D3A',
-                  animation: 'ringPulse 1.8s ease-out 0.2s both'
-                }}
-              />
-            </div>
+            />
           </div>
         </div>
         
