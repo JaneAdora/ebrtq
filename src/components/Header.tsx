@@ -360,7 +360,11 @@ export function Header({ siteSettings }: HeaderProps) {
               transformStyle: 'preserve-3d',
               transition: 'transform 0.6s ease-out',
               padding: '24px',
-              margin: '0 -24px'
+              margin: '0 -24px',
+              touchAction: 'none',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              WebkitTouchCallout: 'none'
             }}
             onMouseEnter={(e) => {
               // Get both elements
@@ -432,6 +436,8 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onTouchStart={(e) => {
+              e.preventDefault(); // Prevent scrolling
+              
               // Get both elements
               const logo = e.currentTarget;
               const text = e.currentTarget.parentElement?.querySelector('h1');
@@ -451,6 +457,8 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onTouchMove={(e) => {
+              e.preventDefault(); // Prevent scrolling
+              
               const logo = e.currentTarget;
               if (logo.dataset.spinning !== 'true') return;
               
@@ -471,6 +479,8 @@ export function Header({ siteSettings }: HeaderProps) {
               }
             }}
             onTouchEnd={(e) => {
+              e.preventDefault(); // Prevent scrolling
+              
               // Get both elements
               const logo = e.currentTarget;
               const text = e.currentTarget.parentElement?.querySelector('h1');
@@ -500,6 +510,22 @@ export function Header({ siteSettings }: HeaderProps) {
               
               if (text) {
                 text.style.animation = 'textZoom 1.2s ease-out forwards';
+              }
+            }}
+            onTouchCancel={(e) => {
+              e.preventDefault(); // Prevent scrolling
+              
+              // Get both elements
+              const logo = e.currentTarget;
+              const text = e.currentTarget.parentElement?.querySelector('h1');
+              
+              // Stop tracking
+              logo.dataset.spinning = 'false';
+              
+              // Stop animations immediately
+              logo.style.animation = 'none';
+              if (text) {
+                text.style.animation = 'none';
               }
             }}
             onClick={(e) => {
