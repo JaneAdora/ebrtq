@@ -351,7 +351,10 @@ export function Header({ siteSettings }: HeaderProps) {
           <div 
             className="w-40 h-40 flex items-center justify-center relative cursor-pointer"
             style={{
-              position: 'relative'
+              position: 'relative',
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none'
             }}
             onMouseEnter={(e) => {
               // Get both elements - target the inner logo
