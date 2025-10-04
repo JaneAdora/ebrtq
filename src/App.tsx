@@ -290,15 +290,13 @@ END:VCALENDAR`;
   
   // Load resources dynamically
   useEffect(() => {
-    // Ensure /demo is not indexed by search engines (defense-in-depth; also set via Vercel header)
+    // Inject noindex for /demo but DO NOT return early (so resources still load)
+    let meta: HTMLMetaElement | null = null;
     if (isDemo) {
-      const meta = document.createElement('meta');
+      meta = document.createElement('meta');
       meta.name = 'robots';
       meta.content = 'noindex, nofollow';
       document.head.appendChild(meta);
-      return () => {
-        document.head.removeChild(meta);
-      };
     }
 
     const loadResources = async () => {
@@ -343,6 +341,12 @@ END:VCALENDAR`;
     };
 
     loadResources();
+
+    return () => {
+      if (meta) {
+        document.head.removeChild(meta);
+      }
+    };
   }, []);
 
   // Check if we're in admin mode via URL hash
