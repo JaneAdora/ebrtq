@@ -302,27 +302,40 @@ END:VCALENDAR`;
     }
 
     const loadResources = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`/src/data/resources.json?v=${Date.now()}`);
-        if (!response.ok) {
-          throw new Error('Failed to load resources');
-        }
-        const data = await response.json();
-        
-        // Map icons and set resources
-        const mappedResources: Resource[] = data.resources.map((resource: any) => ({
+      setIsLoading(true);
+
+      const mapResources = (data: any): Resource[] =>
+        (data?.resources || []).map((resource: any) => ({
           ...resource,
           icon: iconMap[resource.icon as keyof typeof iconMap] || Users
         }));
-        
-        console.log('Loaded resources:', mappedResources);
-        console.log('First resource description:', mappedResources[0]?.description);
-        
+
+      const fetchLocal = async () => {
+        const response = await fetch(`/src/data/resources.json?v=${Date.now()}`);
+        if (!response.ok) throw new Error(`Local resources.json fetch failed: ${response.status}`);
+        const data = await response.json();
+        return mapResources(data);
+      };
+
+      const fetchFromGithubRaw = async () => {
+        const url = `https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json?v=${Date.now()}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`GitHub raw fetch failed: ${response.status}`);
+        const data = await response.json();
+        return mapResources(data);
+      };
+
+      try {
+        // Try local first (served by Vercel). Some preview setups may return 401; fallback to GitHub raw.
+        const mappedResources = await fetchLocal().catch(async (localError) => {
+          console.warn('Local fetch failed, falling back to GitHub raw:', localError);
+          return await fetchFromGithubRaw();
+        });
+
         setResources(mappedResources);
         setError(null);
       } catch (err) {
-        console.error('Error loading resources:', err);
+        console.error('Error loading resources (after fallback):', err);
         setError('Failed to load resources. Please try again later.');
       } finally {
         setIsLoading(false);
