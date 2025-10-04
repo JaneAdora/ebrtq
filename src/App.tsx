@@ -79,6 +79,7 @@ export default function App() {
   
   // Check current route and manage page state
   const currentPath = window.location.pathname;
+  const isDemo = currentPath === '/demo';
   const [currentPage, setCurrentPage] = useState<'resources' | 'events'>(
     currentPath === '/events' ? 'events' : 'resources'
   );
@@ -142,6 +143,25 @@ export default function App() {
       }
       return newSet;
     });
+  };
+
+  // Demo-only: Rotate header logo based on horizontal position over the divider
+  const applyHeaderRotationFromDivider = (dividerEl: HTMLElement, clientX: number) => {
+    const header = document.querySelector('header');
+    if (!header) return;
+    const logo = header.querySelector('div[class*="w-28"]') as HTMLElement | null;
+    if (!logo) return;
+
+    const rect = dividerEl.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const halfWidth = Math.max(1, rect.width / 2);
+    const normalized = Math.max(-1, Math.min(1, (clientX - centerX) / halfWidth));
+    const angleDeg = normalized * 160; // Track left/right; not full 360
+
+    // Stop any running animations and apply a smooth transform
+    logo.style.animation = 'none';
+    logo.style.transition = 'transform 40ms linear';
+    logo.style.transform = `rotateY(${angleDeg}deg)`;
   };
 
   // Helper function to convert 12-hour time to 24-hour time
@@ -289,28 +309,50 @@ END:VCALENDAR`;
   
   // Load resources dynamically
   useEffect(() => {
+    // Inject noindex for /demo but DO NOT return early (so resources still load)
+    let meta: HTMLMetaElement | null = null;
+    if (isDemo) {
+      meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex, nofollow';
+      document.head.appendChild(meta);
+    }
+
     const loadResources = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`/src/data/resources.json?v=${Date.now()}`);
-        if (!response.ok) {
-          throw new Error('Failed to load resources');
-        }
-        const data = await response.json();
-        
-        // Map icons and set resources
-        const mappedResources: Resource[] = data.resources.map((resource: any) => ({
+      setIsLoading(true);
+
+      const mapResources = (data: any): Resource[] =>
+        (data?.resources || []).map((resource: any) => ({
           ...resource,
           icon: iconMap[resource.icon as keyof typeof iconMap] || Users
         }));
-        
-        console.log('Loaded resources:', mappedResources);
-        console.log('First resource description:', mappedResources[0]?.description);
-        
+
+      const fetchLocal = async () => {
+        const response = await fetch(`/src/data/resources.json?v=${Date.now()}`);
+        if (!response.ok) throw new Error(`Local resources.json fetch failed: ${response.status}`);
+        const data = await response.json();
+        return mapResources(data);
+      };
+
+      const fetchFromGithubRaw = async () => {
+        const url = `https://raw.githubusercontent.com/JaneAdora/ebrtq/main/src/data/resources.json?v=${Date.now()}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`GitHub raw fetch failed: ${response.status}`);
+        const data = await response.json();
+        return mapResources(data);
+      };
+
+      try {
+        // Try local first (served by Vercel). Some preview setups may return 401; fallback to GitHub raw.
+        const mappedResources = await fetchLocal().catch(async (localError) => {
+          console.warn('Local fetch failed, falling back to GitHub raw:', localError);
+          return await fetchFromGithubRaw();
+        });
+
         setResources(mappedResources);
         setError(null);
       } catch (err) {
-        console.error('Error loading resources:', err);
+        console.error('Error loading resources (after fallback):', err);
         setError('Failed to load resources. Please try again later.');
       } finally {
         setIsLoading(false);
@@ -318,6 +360,12 @@ END:VCALENDAR`;
     };
 
     loadResources();
+
+    return () => {
+      if (meta) {
+        document.head.removeChild(meta);
+      }
+    };
   }, []);
 
   // Check if we're in admin mode via URL hash
@@ -444,6 +492,7 @@ END:VCALENDAR`;
         <div className="w-full max-w-2xl">
           <style>{pageAnimation}</style>
         <Header 
+          siteSettings={isDemo ? { h1: 'demo' } : undefined}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
@@ -458,215 +507,49 @@ END:VCALENDAR`;
             boxShadow: '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)',
             animation: 'pageContentFadeIn 1.5s ease-out 1.2s both',
             cursor: 'pointer',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.15s ease'
           }}
           onMouseEnter={(e) => {
-            const divider = e.currentTarget;
+            const divider = e.currentTarget as HTMLDivElement;
             divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
             divider.style.transform = 'scaleY(2)';
-            
-            // Trigger fidget animations on header elements
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              const h1 = header.querySelector('h1');
-              
-              if (logo && h1) {
-                logo.dataset.spinning = 'true';
-                logo.style.transition = 'none';
-                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-                
-                h1.style.transition = 'none';
-                h1.style.animation = 'textZoom 2s ease-in-out infinite';
-              }
-            }
-          }}
-          onMouseLeave={(e) => {
-            const divider = e.currentTarget;
-            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
-            divider.style.transform = 'scaleY(1)';
-            
-            // Stop fidget animations on header elements
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              const h1 = header.querySelector('h1');
-              
-              if (logo && h1) {
-                logo.dataset.spinning = 'false';
-                
-                // Get current animation to determine direction
-                const currentAnimation = logo.style.animation;
-                let stopAnimation = 'spinToStopClockwise 1.5s ease-out forwards';
-                
-                if (currentAnimation.includes('CounterClockwise')) {
-                  stopAnimation = 'spinToStopCounterClockwise 1.5s ease-out forwards';
-                }
-                
-                // Set current rotation for smooth continuation
-                const computedStyle = window.getComputedStyle(logo);
-                const matrix = computedStyle.transform;
-                if (matrix && matrix !== 'none') {
-                  const values = matrix.split('(')[1].split(')')[0].split(',');
-                  const angle = Math.atan2(values[1], values[0]) * (180 / Math.PI);
-                  logo.style.setProperty('--current-rotation', `${angle}deg`);
-                }
-                
-                logo.style.animation = stopAnimation;
-                h1.style.animation = 'textZoom 1.2s ease-out forwards';
-              }
-            }
+            // Start with current pointer position
+            applyHeaderRotationFromDivider(divider, e.clientX);
           }}
           onMouseMove={(e) => {
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              
-              if (logo && logo.dataset.spinning === 'true') {
-                const currentX = e.clientX;
-                const logoRect = logo.getBoundingClientRect();
-                const centerX = logoRect.left + logoRect.width / 2;
-                
-                // Determine spin direction based on mouse position relative to center
-                const shouldSpinClockwise = currentX > centerX;
-                const currentAnimation = logo.style.animation;
-                
-                // Change direction if needed
-                if (shouldSpinClockwise && !currentAnimation.includes('Clockwise')) {
-                  logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-                } else if (!shouldSpinClockwise && !currentAnimation.includes('CounterClockwise')) {
-                  logo.style.animation = 'coinSpinCounterClockwise 2s linear infinite';
-                }
-              }
-            }
+            applyHeaderRotationFromDivider(e.currentTarget as HTMLDivElement, e.clientX);
+          }}
+          onMouseLeave={(e) => {
+            const divider = e.currentTarget as HTMLDivElement;
+            divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
+            divider.style.transform = 'scaleY(1)';
+            // Do not force reset rotation; let it stay where user left it
           }}
           onTouchStart={(e) => {
             e.preventDefault();
-            const divider = e.currentTarget;
+            const divider = e.currentTarget as HTMLDivElement;
             divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
             divider.style.transform = 'scaleY(2)';
-            
-            // Trigger fidget animations on header elements
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              const h1 = header.querySelector('h1');
-              
-              if (logo && h1) {
-                logo.dataset.spinning = 'true';
-                logo.style.transition = 'none';
-                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-                
-                h1.style.transition = 'none';
-                h1.style.animation = 'textZoom 2s ease-in-out infinite';
-              }
-            }
+            const touch = e.touches[0];
+            applyHeaderRotationFromDivider(divider, touch.clientX);
           }}
           onTouchMove={(e) => {
             e.preventDefault();
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              
-              if (logo && logo.dataset.spinning === 'true') {
-                const touch = e.touches[0];
-                const currentX = touch.clientX;
-                const logoRect = logo.getBoundingClientRect();
-                const centerX = logoRect.left + logoRect.width / 2;
-                
-                // Determine spin direction based on touch position relative to center
-                const shouldSpinClockwise = currentX > centerX;
-                const currentAnimation = logo.style.animation;
-                
-                // Change direction if needed
-                if (shouldSpinClockwise && !currentAnimation.includes('Clockwise')) {
-                  logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-                } else if (!shouldSpinClockwise && !currentAnimation.includes('CounterClockwise')) {
-                  logo.style.animation = 'coinSpinCounterClockwise 2s linear infinite';
-                }
-              }
-            }
+            const divider = e.currentTarget as HTMLDivElement;
+            const touch = e.touches[0];
+            applyHeaderRotationFromDivider(divider, touch.clientX);
           }}
           onTouchEnd={(e) => {
             e.preventDefault();
-            const divider = e.currentTarget;
+            const divider = e.currentTarget as HTMLDivElement;
             divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
             divider.style.transform = 'scaleY(1)';
-            
-            // Stop fidget animations on header elements
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              const h1 = header.querySelector('h1');
-              
-              if (logo && h1) {
-                logo.dataset.spinning = 'false';
-                
-                // Get current animation to determine direction
-                const currentAnimation = logo.style.animation;
-                let stopAnimation = 'spinToStopClockwise 1.5s ease-out forwards';
-                
-                if (currentAnimation.includes('CounterClockwise')) {
-                  stopAnimation = 'spinToStopCounterClockwise 1.5s ease-out forwards';
-                }
-                
-                // Set current rotation for smooth continuation
-                const computedStyle = window.getComputedStyle(logo);
-                const matrix = computedStyle.transform;
-                if (matrix && matrix !== 'none') {
-                  const values = matrix.split('(')[1].split(')')[0].split(',');
-                  const angle = Math.atan2(values[1], values[0]) * (180 / Math.PI);
-                  logo.style.setProperty('--current-rotation', `${angle}deg`);
-                }
-                
-                logo.style.animation = stopAnimation;
-                h1.style.animation = 'textZoom 1.2s ease-out forwards';
-              }
-            }
           }}
           onTouchCancel={(e) => {
             e.preventDefault();
-            const divider = e.currentTarget;
+            const divider = e.currentTarget as HTMLDivElement;
             divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
             divider.style.transform = 'scaleY(1)';
-            
-            // Stop fidget animations immediately
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              const h1 = header.querySelector('h1');
-              
-              if (logo && h1) {
-                logo.dataset.spinning = 'false';
-                logo.style.animation = 'none';
-                h1.style.animation = 'none';
-              }
-            }
-          }}
-          onClick={(e) => {
-            const divider = e.currentTarget;
-            divider.style.boxShadow = '0 0 25px rgba(0, 245, 255, 0.8), 0 0 50px rgba(0, 245, 255, 0.4)';
-            divider.style.transform = 'scaleY(2)';
-            
-            // Trigger fidget animations for 3 seconds
-            const header = document.querySelector('header');
-            if (header) {
-              const logo = header.querySelector('div[class*="w-28"]');
-              const h1 = header.querySelector('h1');
-              
-              if (logo && h1) {
-                logo.style.animation = 'coinSpinClockwise 2s linear infinite';
-                h1.style.animation = 'textZoom 2s ease-in-out infinite';
-                
-                // Stop after 3 seconds
-                setTimeout(() => {
-                  divider.style.boxShadow = '0 0 15px rgba(0, 245, 255, 0.4), 0 0 30px rgba(0, 245, 255, 0.2)';
-                  divider.style.transform = 'scaleY(1)';
-                  logo.style.animation = 'none';
-                  h1.style.animation = 'none';
-                }, 3000);
-              }
-            }
           }}
         />
         
@@ -1335,6 +1218,7 @@ END:VCALENDAR`;
       <div className="w-full max-w-2xl">
         <style>{pageAnimation}</style>
         <Header 
+          siteSettings={isDemo ? { h1: 'demo' } : undefined}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
