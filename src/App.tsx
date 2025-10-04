@@ -79,6 +79,7 @@ export default function App() {
   
   // Check current route and manage page state
   const currentPath = window.location.pathname;
+  const isDemo = currentPath === '/demo';
   const [currentPage, setCurrentPage] = useState<'resources' | 'events'>(
     currentPath === '/events' ? 'events' : 'resources'
   );
@@ -289,6 +290,17 @@ END:VCALENDAR`;
   
   // Load resources dynamically
   useEffect(() => {
+    // Ensure /demo is not indexed by search engines (defense-in-depth; also set via Vercel header)
+    if (isDemo) {
+      const meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex, nofollow';
+      document.head.appendChild(meta);
+      return () => {
+        document.head.removeChild(meta);
+      };
+    }
+
     const loadResources = async () => {
       try {
         setIsLoading(true);
@@ -444,6 +456,7 @@ END:VCALENDAR`;
         <div className="w-full max-w-2xl">
           <style>{pageAnimation}</style>
         <Header 
+          siteSettings={isDemo ? { h1: 'demo' } : undefined}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
@@ -1335,6 +1348,7 @@ END:VCALENDAR`;
       <div className="w-full max-w-2xl">
         <style>{pageAnimation}</style>
         <Header 
+          siteSettings={isDemo ? { h1: 'demo' } : undefined}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
